@@ -103,7 +103,7 @@ class Vlan(models.Model):
         return "{0}".format(self.nom)
     
 
-"""class Serveur(models.Model):
+class Serveur(models.Model):
     id = models.IntegerField(db_column='Index', primary_key=True) 
     nom = models.CharField(db_column='Nom', max_length=30, blank=True, null=True) 
     aet = models.CharField(db_column='AET', max_length=30, blank=True, null=True) 
@@ -116,7 +116,7 @@ class Vlan(models.Model):
         db_table = 'serveur'
 
     def __str__(self):
-        return "{0}".format(self.serveur)"""
+        return "{0}".format(self.nom)
 
 
 """class Service(models.Model):
