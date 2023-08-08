@@ -162,19 +162,7 @@ class Serveur(models.Model):
     def __str__(self):
         return "{0}".format(self.nom)"""
 
-
-"""class connect(models.Model):
-    id = models.IntegerField(primary_key=True)
-    pingip = models.CharField(max_length=45, blank=True, null=True)
-    pingdicom = models.CharField(max_length=45, blank=True, null=True)
-
-    class Meta:
-        managed = True
-        db_table = 'connect'
-
-    def __str__(self):
-        return "{0}".format(self.nomvlan)"""
-
+    
 
 class Liste(models.Model):
     id = models.AutoField(db_column='Index', primary_key=True)  
@@ -228,3 +216,15 @@ class Liste(models.Model):
 
     def __str__(self):
         return "{0}".format(self.addrip)
+    
+class Connect(models.Model):
+    liste = models.OneToOneField(Liste, on_delete=models.CASCADE, primary_key=True,)
+    pingip = models.BooleanField(default=False)
+    pingdicom = models.BooleanField(default=False)
+
+    class Meta:
+        managed = True
+        db_table = 'connect'
+
+    def __str__(self):
+        return "IP de la modalité : {0},   aet : {1}".format(self.liste.addrip, self.liste.aet)
