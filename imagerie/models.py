@@ -101,7 +101,7 @@ class Vlan(models.Model):
 
     def __str__(self):
         return "{0}".format(self.nom)
-    
+     
 
 class Serveur(models.Model):
     id = models.IntegerField(db_column='Index', primary_key=True) 
@@ -117,51 +117,6 @@ class Serveur(models.Model):
 
     def __str__(self):
         return "{0}".format(self.nom)
-
-
-"""class Service(models.Model):
-    id = models.IntegerField(db_column='Index', primary_key=True)  
-    service = models.CharField(db_column='Service', unique=True, max_length=30, blank=True, null=True) 
-    indexetablissement = models.IntegerField(db_column='IndexEtablissement', blank=True, null=True) 
-
-    class Meta:
-        managed = True
-        db_table = 'service'
-
-    def __str__(self):
-        return "{0}".format(self.service)"""
-
-"""class Store(models.Model):
-    id = models.IntegerField(db_column='idStore', primary_key=True) 
-    nom = models.CharField(db_column='Nom', max_length=30, blank=True, null=True) 
-    ip = models.DecimalField(db_column='IP', max_digits=12, decimal_places=0, blank=True, null=True) 
-    port = models.DecimalField(max_digits=12, decimal_places=0, blank=True, null=True)
-    aet = models.CharField(db_column='Aet', max_length=30, blank=True, null=True) 
-
-    class Meta:
-        managed = True
-        db_table = 'store'
-
-    def __str__(self):
-        return "{0}".format(self.nom)"""
-
-
-
-"""class Worklist(models.Model):
-    id = models.IntegerField(db_column='Index', primary_key=True) 
-    nom = models.CharField(db_column='Nom', max_length=30, blank=True, null=True) 
-    aet = models.CharField(db_column='Aet', max_length=30, blank=True, null=True)  
-    ip = models.DecimalField(db_column='IP', max_digits=12, decimal_places=0, blank=True, null=True) 
-    port = models.DecimalField(db_column='Port', max_digits=5, decimal_places=0, blank=True, null=True)
-    masque = models.DecimalField(db_column='Masque', max_digits=12, decimal_places=0, blank=True, null=True) 
-
-    class Meta:
-        managed = True
-        db_table = 'worklist'
-
-    def __str__(self):
-        return "{0}".format(self.nom)"""
-
     
 
 class Liste(models.Model):
@@ -217,9 +172,11 @@ class Liste(models.Model):
     def __str__(self):
         return "{0}".format(self.addrip)
     
+    
 class Connect(models.Model):
     liste = models.OneToOneField(Liste, on_delete=models.CASCADE, primary_key=True,)
     pingip = models.BooleanField(default=False)
+    pinghost = models.BooleanField(default=False)
     pingdicom = models.BooleanField(default=False)
 
     class Meta:
@@ -228,3 +185,47 @@ class Connect(models.Model):
 
     def __str__(self):
         return "IP de la modalité : {0},   aet : {1}".format(self.liste.addrip, self.liste.aet)
+
+
+"""class Service(models.Model):
+    id = models.IntegerField(db_column='Index', primary_key=True)  
+    service = models.CharField(db_column='Service', unique=True, max_length=30, blank=True, null=True) 
+    indexetablissement = models.IntegerField(db_column='IndexEtablissement', blank=True, null=True) 
+
+    class Meta:
+        managed = True
+        db_table = 'service'
+
+    def __str__(self):
+        return "{0}".format(self.service)"""
+
+"""class Store(models.Model):
+    id = models.IntegerField(db_column='idStore', primary_key=True) 
+    nom = models.CharField(db_column='Nom', max_length=30, blank=True, null=True) 
+    ip = models.DecimalField(db_column='IP', max_digits=12, decimal_places=0, blank=True, null=True) 
+    port = models.DecimalField(max_digits=12, decimal_places=0, blank=True, null=True)
+    aet = models.CharField(db_column='Aet', max_length=30, blank=True, null=True) 
+
+    class Meta:
+        managed = True
+        db_table = 'store'
+
+    def __str__(self):
+        return "{0}".format(self.nom)"""
+
+
+
+"""class Worklist(models.Model):
+    id = models.IntegerField(db_column='Index', primary_key=True) 
+    nom = models.CharField(db_column='Nom', max_length=30, blank=True, null=True) 
+    aet = models.CharField(db_column='Aet', max_length=30, blank=True, null=True)  
+    ip = models.DecimalField(db_column='IP', max_digits=12, decimal_places=0, blank=True, null=True) 
+    port = models.DecimalField(db_column='Port', max_digits=5, decimal_places=0, blank=True, null=True)
+    masque = models.DecimalField(db_column='Masque', max_digits=12, decimal_places=0, blank=True, null=True) 
+
+    class Meta:
+        managed = True
+        db_table = 'worklist'
+
+    def __str__(self):
+        return "{0}".format(self.nom)"""
