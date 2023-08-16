@@ -11,7 +11,7 @@ from django.utils.translation import gettext as _
 from django.db import models
 
 class Appareil(models.Model):
-    id = models.IntegerField(db_column='Index', primary_key=True) 
+    # id = models.IntegerField(db_column='Index', primary_key=True) 
     nom = models.CharField(max_length=45, blank=True, null=True)
     divers = models.CharField(max_length=255, blank=True, null=True)
     datecreat = models.DateTimeField(auto_now_add=True, verbose_name='date de création')
@@ -25,7 +25,7 @@ class Appareil(models.Model):
         return "{0}".format(self.nom)
 
 class Etablissement(models.Model):
-    id = models.IntegerField(db_column='Index', primary_key=True) 
+    # id = models.IntegerField(db_column='Index', primary_key=True, auto) 
     nom = models.CharField(max_length=30, blank=True, null=True)
     divers = models.CharField(max_length=255, blank=True, null=True)
     datecreat = models.DateTimeField(auto_now_add=True, verbose_name='date de création')
@@ -40,11 +40,11 @@ class Etablissement(models.Model):
 
 
 class Localisation(models.Model):
-    id = models.AutoField(db_column='Index', primary_key=True) 
-    code = models.CharField(db_column='code', unique=True, max_length=30) 
-    nom= models.CharField(db_column='nom', blank=True, null=True, max_length=30)  
-    nomutil= models.CharField(db_column='nom utilisation', blank=True, null=True, max_length=30)  
-    tel = models.CharField(db_column='telephone', unique=True, max_length=30) 
+    # id = models.AutoField(db_column='Index', primary_key=True) 
+    code = models.CharField(unique=True, max_length=30) 
+    nom = models.CharField(blank=True, null=True, max_length=30)  
+    nomutil = models.CharField(blank=True, null=True, max_length=30)  
+    tel = models.CharField(blank=True, null=True, max_length=30) 
     divers = models.CharField(max_length=255, blank=True, null=True)
     datecreat = models.DateTimeField(auto_now_add=True, verbose_name='date de création')
     datemodif = models.DateTimeField(auto_now=True, verbose_name='date de modification')
@@ -58,7 +58,7 @@ class Localisation(models.Model):
 
 
 class Marque(models.Model):
-    id = models.IntegerField(db_column='Index', primary_key=True) 
+    # id = models.IntegerField(db_column='Index', primary_key=True) 
     nom = models.CharField(max_length=30, blank=True, null=True)
     divers = models.CharField(max_length=255, blank=True, null=True)
     datecreat = models.DateTimeField(auto_now_add=True, verbose_name='date de création')
@@ -73,7 +73,7 @@ class Marque(models.Model):
 
 
 class AppareilType(models.Model):
-    id = models.IntegerField(db_column='Index', primary_key=True) 
+    # id = models.IntegerField(db_column='Index', primary_key=True) 
     nom = models.CharField(max_length=45, blank=True, null=True)
     divers = models.CharField(max_length=255, blank=True, null=True)
     datecreat = models.DateTimeField(auto_now_add=True, verbose_name='date de création')
@@ -88,7 +88,7 @@ class AppareilType(models.Model):
 
 
 class Vlan(models.Model):
-    id = models.IntegerField(primary_key=True)
+    # id = models.IntegerField(primary_key=True)
     num = models.IntegerField(unique=True, blank=True, null=True)
     nom = models.CharField(max_length=45, blank=True, null=True)
     divers = models.CharField(max_length=255, blank=True, null=True)
@@ -104,41 +104,42 @@ class Vlan(models.Model):
      
 
 class Serveur(models.Model):
-    id = models.IntegerField(db_column='Index', primary_key=True) 
-    nom = models.CharField(db_column='Nom', max_length=30, blank=True, null=True) 
-    aet = models.CharField(db_column='AET', max_length=30, blank=True, null=True) 
-    ip = models.DecimalField(db_column='IP', max_digits=12, decimal_places=0, blank=True, null=True)  
-    masque = models.DecimalField(db_column='Masque', max_digits=12, decimal_places=0, blank=True, null=True)  
-    port = models.DecimalField(db_column='Port', max_digits=12, decimal_places=0, blank=True, null=True)  
+    # id = models.IntegerField(db_column='Index', primary_key=True) 
+    nom = models.CharField(max_length=30, blank=True, null=True) 
+    aet = models.CharField(max_length=30, blank=True, null=True) 
+    ip = models.GenericIPAddressField(default="0.0.0.0", blank=True, null=True)  
+    masque = models.GenericIPAddressField(default="0.0.0.0", blank=True, null=True)  
+    port = models.DecimalField(max_digits=12, decimal_places=0, blank=True, null=True)  
 
     class Meta:
         managed = True
-        db_table = 'serveur'
+        db_table = 'Serveur'
 
     def __str__(self):
         return "{0}".format(self.nom)
     
 
 class Liste(models.Model):
-    id = models.AutoField(db_column='Index', primary_key=True)  
-    addrip = models.DecimalField(db_column='Adresse Ip', max_digits=12, decimal_places=0) 
-    aet = models.CharField(db_column='Aet', max_length=30)    
-    port = models.IntegerField(db_column='Port')  
-    masque = models.DecimalField(db_column='Masque', max_digits=12, decimal_places=0)      
-    hostname = models.CharField(db_column='Hostname', max_length=30) 
-    modalite = models.CharField(db_column='Modalite', max_length=2)  
-    hostname = models.CharField(db_column='Hostname', max_length=30)
-    systeme = models.CharField(db_column='Systeme', max_length=30)  
-    macadresse = models.CharField(db_column='Macadresse', max_length=17, blank=True, null=True)    
-    dicom = models.CharField(db_column='Dicom', max_length=3, blank=True, null=True)
-    inventaire = models.CharField(db_column='Inventaire', max_length=24, blank=True, null=True)     
-    remarque = models.CharField(db_column='remarque', max_length=1024, blank=True, null=True)       
+    # id = models.AutoField(db_column='Index', primary_key=True)  
+    addrip = models.GenericIPAddressField(default="0.0.0.0", blank=True, null=True)
+    aet = models.CharField(max_length=30, blank=True, null=True)    
+    port = models.IntegerField()  
+    masque = models.GenericIPAddressField(default="0.0.0.0", blank=True, null=True)
+    hostname = models.CharField(max_length=30, blank=True, null=True) 
+    modalite = models.CharField(max_length=2, blank=True, null=True)  
+    hostname = models.CharField(max_length=30, blank=True, null=True)
+    systeme = models.CharField(max_length=30, blank=True, null=True)  
+    macadresse = models.CharField(max_length=17, blank=True, null=True)    
+    dicom = models.CharField(max_length=3, blank=True, null=True)
+    inventaire = models.CharField(max_length=24, blank=True, null=True)     
+    remarque = models.CharField(max_length=1024, blank=True, null=True)       
     appareil = models.ForeignKey('Appareil', null=True, blank=True, on_delete=models.PROTECT, related_name='Appareil', help_text=_(" Appareil "), )
     etablissement = models.ForeignKey('Etablissement', null=True, blank=True, on_delete=models.PROTECT, related_name='Etablissement', help_text=_(" Etablissement "), )
     localisation = models.ForeignKey('Localisation', null=True, blank=True, on_delete=models.PROTECT, related_name='Localisation', help_text=_(" Localisation "), )
     marque = models.ForeignKey('Marque', null=True, blank=True, on_delete=models.PROTECT, related_name='Marque', help_text=_(" Marque "), )
-    typeappareil = models.ForeignKey('AppareilType', null=True, blank=True, on_delete=models.PROTECT, related_name='AppareilType', help_text=_(" AppareilType "), )
+    appareiltype = models.ForeignKey('AppareilType', null=True, blank=True, on_delete=models.PROTECT, related_name='AppareilType', help_text=_(" AppareilType "), )
     vlan = models.ForeignKey('Vlan', null=True, blank=True, on_delete=models.PROTECT, related_name='Vlan', help_text=_(" Vlan "), )
+    
     # dhcp = models.CharField(db_column='DHCP', max_length=2, blank=True, null=True)
     # pacs = models.CharField(db_column='Pacs', max_length=30)   
     # Service = models.ForeignKey('Service', null=True, blank=True, on_delete=models.PROTECT, related_name='', help_text=_(" Service "), )
@@ -181,7 +182,7 @@ class Connect(models.Model):
 
     class Meta:
         managed = True
-        db_table = 'connect'
+        db_table = 'Connect'
 
     def __str__(self):
         return "IP de la modalité : {0},   aet : {1}".format(self.liste.addrip, self.liste.aet)

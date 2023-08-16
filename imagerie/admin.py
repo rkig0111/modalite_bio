@@ -1,5 +1,6 @@
 from django.contrib import admin
-from imagerie.models import Liste, Appareil, Etablissement, Localisation, Marque, AppareilType, Vlan
+from imagerie.models import Appareil, Etablissement, Localisation, Marque, AppareilType, Vlan
+from imagerie.models import Liste, Serveur, Connect
 
 class VlanAdmin(admin.ModelAdmin):
     list_display = ('num', 'nom')
@@ -18,7 +19,13 @@ class AppareilAdmin(admin.ModelAdmin):
 
 class AppareilTypeAdmin(admin.ModelAdmin):
     list_display = ('nom',)
-
+    
+class ServeurAdmin(admin.ModelAdmin):
+    list_display = ('nom',)
+    
+class ConnectAdmin(admin.ModelAdmin):
+    list_display = ('liste',)
+    
 class ListeAdmin(admin.ModelAdmin):
     list_display = ('appareil', 'marque', 'addrip', 'aet', 'port', 'macadresse', 'localisation')
 
@@ -42,6 +49,8 @@ admin.site.register(Localisation, LocalisationAdmin)
 admin.site.register(Marque, MarqueAdmin)
 admin.site.register(Appareil, AppareilAdmin)
 admin.site.register(AppareilType, AppareilTypeAdmin)
+admin.site.register(Serveur, ServeurAdmin)
+admin.site.register(Connect, ConnectAdmin)
 admin.site.register(Liste, ListeAdmin)
 """admin.site.register(Service, ServiceAdmin)
 admin.site.register(Remarque, RemarqueAdmin)
