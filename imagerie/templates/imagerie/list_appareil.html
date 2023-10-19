@@ -1,0 +1,11 @@
+{% if appareils %}
+<ul>
+{% for appareil in appareils %}
+<h5>
+    <li><a href="{{ modele }}/detail/{{ appareil.id }}"> {{ appareil.id }}{{ appareil.nom }} {{ appareil.divers }}</a></li>
+</h5>
+{% endfor %}
+</ul>
+{% else %}
+    <p> il n'y a pas d' appareil à afficher. </p>
+{% endif %}

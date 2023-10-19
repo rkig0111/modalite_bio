@@ -1,0 +1,32 @@
+{% extends "common/base.html" %}
+{% load static %}
+{% load json_tags %}
+{% load url_kwargs %}
+{% load crispy_forms_tags %}
+{% block more_header %}
+{{ block.super }}
+<link rel="stylesheet" type="text/css" href="{% static '/smart_view/css/smart-page.css' %}" />
+{{ smart_view.media }}{{ smart_view_form.media }}
+{% endblock more_header %}
+{% block tab_contents %}
+ <h1>{{ title }}</h1>
+  {% if smart_view_form %}
+   <div>
+    {% crispy smart_view_form smart_view_form_helper %}
+    <script>
+    var form_helper_rules = {{ smart_view_form_helper_js_rules|to_json }};
+    var form_helper = new FormHelper('#{{ smart_view_form_helper.form_id }}', form_helper_rules, {debug:true});
+    </script>
+   </div>
+ {% elif smart_view %}
+   <div class="smart-page-table" style="">
+    <div class="smart-page-header-message">{{ header_message | safe }}</div>
+    <div class="smart-page-main-filters">{{ main_filters | safe }}</div>
+    {{ smart_view | safe }}
+   </div>
+ {% else %}
+<div style="text-align:center;">
+<br><br><span style="text-align:center;">La configuration du site ne permet pas d'afficher le contenu de la page...</span>
+</div>
+ {% endif %}
+{% endblock tab_contents %}

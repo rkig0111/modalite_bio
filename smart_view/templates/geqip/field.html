@@ -1,0 +1,51 @@
+{% load crispy_forms_field %}
+{% if field.is_hidden %}
+    {{ field }}
+{% else %}{% spaceless %}
+        <span id="label-{{ field.auto_id }}-container" class="label"
+              style="grid-column:{{ smart_label_column }}; grid-row-end:span {{ row_span }}">
+      <div class="form-icon {% if field.errors %}error {% endif %}{% if field.help_text %}help {% endif %}tooltip">
+          <div id="help-{{ field.auto_id }}" class="tooltiptext">{{ field.help_text }}
+              {% if form_show_errors %}
+                  {% for error in field.errors %}
+                      <p id="error_{{ forloop.counter }}_{{ field.auto_id }}" class="field-error">
+                    {{ error }}
+                </p>
+                  {% endfor %}
+              {% endif %}
+      </div>
+      </div>
+      <label id="label-{{ field.auto_id }}" for="{{ field.id_for_label }}">{{ field.label }}</label>&nbsp;:&nbsp;
+    </span>
+        <span class="field" style="grid-column:{{ smart_field_column }}; grid-row-end:span {{ row_span }}">
+        {% if read_only %}
+            {% if field.field.widget.choices %}
+                <span class="ro-field">{% for choice in field.field.widget.choices %}
+                    {% if choice|first == field.value %}{{ choice|last }}{% endif %}{% endfor %}&nbsp;<input
+                        type="hidden" id="{{ field.auto_id }}" name="{{ field.html_name }}"
+                        value="{% if field.value|date:'Y-m-d' %}{{ field.value|date:'Y-m-d' }}{% else %}{{ field.value|default:'' }}{% endif %}"></span>
+            {% elif field.value == True %}
+                <span class="ro-field" style="width:initial;">
+                    <i class="fa fa-check"></i>
+                    <input type="hidden"
+                           id="{{ field.auto_id }}"
+                           name="{{ field.html_name }}"
+                           value="{{ field.value }}"></span>
+            {% elif field.value == False %}
+                <span class="ro-field" style="width:initial;">
+                    <i class="fa fa-close"></i>
+                    <input type="hidden"
+                           id="{{ field.auto_id }}"
+                           name="{{ field.html_name }}"
+                           value="{{ field.value }}"></span>
+            {% else %}
+                <span class="ro-field">
+                    {{ field.value|default:'' }}&nbsp;<input type="hidden" id="{{ field.auto_id }}"
+                                                             name="{{ field.html_name }}"
+                                                             value="{{ field.value|default:'' }}">
+                </span>
+            {% endif %}
+        {% else %}
+            {{ field }}
+        {% endif %}</span>
+{% endspaceless %}{% endif %}

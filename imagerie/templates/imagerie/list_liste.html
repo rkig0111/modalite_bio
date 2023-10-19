@@ -1,0 +1,11 @@
+{% if listes %}
+<ul>
+{% for liste in listes %}
+<h5>
+    <li><a href="{{ modele }}/detail/{{ liste.id }}"> {{ liste.id }}  {{ liste.addrip }} {{ liste.aet }} {{ liste.port }} {{ liste.macadresse }} {{ liste.appareil }} {{ liste.appareiltype }} {{ liste.marque }} {{ liste.vlan }}</a></li>
+</h5>
+{% endfor %}
+</ul>liste
+{% else %}
+    <p> il n'y a pas de liste à afficher. </p>
+{% endif %}

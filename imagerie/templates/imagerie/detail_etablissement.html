@@ -1,0 +1,22 @@
+<table>
+    <tr>
+      <td><h3>id : </h3></td>
+      <td><h3>{{ etablissement.id }}</h3></td>
+    </tr>
+     <tr>
+      <td><h3>dénomination :</h3></td>
+      <td><h3>{{ etablissement.nom }}</h3></td>
+    </tr>
+    <tr>
+      <td><h3>divers :</h3></td>
+      <td><h3>{{ etablissement.divers|default_if_none:""}}</h3></td>
+      </tr>
+    <tr>
+      <td><h3>date création :</h3></td>
+      <td><h3>{{ etablissement.datecreat }}</h3></td>
+    </tr>
+    <tr>
+      <td><h3>date modification :</h3></td>
+      <td><h3>{{ etablissement.datemodif }}</h3></td>
+    </tr>
+  </table>

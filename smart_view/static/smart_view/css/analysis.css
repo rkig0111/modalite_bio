@@ -1,0 +1,27 @@
+.analysis li.message {
+  padding: 4px;
+}
+
+.analysis div.message {
+  padding: 4px;
+}
+
+.analysis .level-4 {
+  background-color: #f99;
+}
+
+.analysis .level-3 {
+  background-color: #fc9;
+}
+
+.analysis .level-2 {
+  background-color: #ff9;
+}
+
+.analysis .level-1 {
+  background-color: #9ef;
+}
+
+.analysis .level-0 {
+  background-color: #9f9;
+}

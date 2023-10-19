@@ -24,6 +24,7 @@ class Appareil(models.Model):
     def __str__(self):
         return "{0}".format(self.nom)
 
+
 class Etablissement(models.Model):
     # id = models.IntegerField(db_column='Index', primary_key=True, auto) 
     nom = models.CharField(max_length=30, blank=True, null=True)
@@ -101,8 +102,8 @@ class Vlan(models.Model):
 
     def __str__(self):
         return "{0}".format(self.nom)
-     
 
+     
 class Serveur(models.Model):
     # id = models.IntegerField(db_column='Index', primary_key=True) 
     nom = models.CharField(max_length=30, blank=True, null=True) 
@@ -117,10 +118,31 @@ class Serveur(models.Model):
 
     def __str__(self):
         return "{0}".format(self.nom)
-    
 
+    
 class Liste(models.Model):
-    # id = models.AutoField(db_column='Index', primary_key=True)  
+    NA = 0
+    PACS = 1
+    WL = 2
+    DACS = 3
+    STORE = 4
+    PRINT = 5
+    OTHER = 6
+    
+    SERVEUR = (
+        ('0', 'N/A'),
+        ('1', 'PACS'),
+        ('2', 'WL'),
+        ('3', 'DACS'),
+        ('4', 'STORE'),
+        ('5', 'PRINT'),
+        ('6', 'OTHER'),
+    )
+    
+    # id = models.AutoField(db_column='Index', primary_key=True)
+    serveur = models.BooleanField(default=False)
+    # typeserveur = models.ManyToManyField('self', null=True, blank=True, choices=SERVEUR, default=NA)
+    connexion = models.ManyToManyField('self', blank=True)
     addrip = models.GenericIPAddressField(default="0.0.0.0", blank=True, null=True)
     aet = models.CharField(max_length=30, blank=True, null=True)    
     port = models.IntegerField()  
@@ -171,10 +193,10 @@ class Liste(models.Model):
         db_table = 'Liste'
 
     def __str__(self):
-        return "{0}".format(self.addrip)
+        return "{0} {1}".format(self.aet, self.addrip)
+
     
-    
-class Connect(models.Model):
+class Testlan(models.Model):
     liste = models.OneToOneField(Liste, on_delete=models.CASCADE, primary_key=True,)
     pingip = models.BooleanField(default=False)
     pinghost = models.BooleanField(default=False)
@@ -182,7 +204,7 @@ class Connect(models.Model):
 
     class Meta:
         managed = True
-        db_table = 'Connect'
+        db_table = 'Testlan'
 
     def __str__(self):
         return "IP de la modalité : {0},   aet : {1}".format(self.liste.addrip, self.liste.aet)

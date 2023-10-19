@@ -1,0 +1,11 @@
+{% if marques %}
+<ul>
+{% for marque in marques %}
+<h5>
+    <li><a href="{{ modele }}/detail/{{ marque.id }}"> {{ marque.id }}  {{ marque.nom }} {{ marque.divers }}</a></li>
+</h5>
+{% endfor %}
+</ul>
+{% else %}
+    <p> il n'y a pas de marque à afficher. </p>
+{% endif %}

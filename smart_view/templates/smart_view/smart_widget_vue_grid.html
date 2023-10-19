@@ -1,0 +1,314 @@
+{% load json_tags %}
+<div id="{{ html_id }}"></div>
+<script>
+  let grid_params = {{ grid_params | to_json }};
+  let mouseXY = {"x": null, "y": null};
+  let DragPos = {"x": null, "y": null, "w": 1, "h": 1, "i": null, "w_class": null, "w_params": null};
+    var app = new Vue({
+      el: '#{{ html_id }}',
+      data() {
+          var base_layout = Array();
+          let index = 0;
+          for (var i = 0; i < grid_params.init_layout.length; i++) {
+              let item = grid_params.init_layout[i];
+              if (item.i >= index) {
+                  index = item.i + 1;
+              }
+              base_layout.push(item);
+          }
+          return {
+              layout: base_layout,
+              editable: grid_params.editable,
+              unlocked: false,
+              menu_open: false,
+              grid_item_form_open: false,
+              entries: grid_params.available_widgets,
+              layout_html_id: '{{ html_id }}',
+              index: index,
+          }
+      },
+      mounted() {
+        document.addEventListener("dragover", function (e) {
+            mouseXY.x = e.clientX;
+            mouseXY.y = e.clientY;
+        }, false);
+      },
+     updated: function() {
+          this.$nextTick(function() {
+              // Code that will run only after the
+              // entire view has been re-rendered
+              // console.log('Updated deep', this.layout);
+              if (this.timeoutId !== null) {
+                  clearTimeout(this.timeoutId);
+                  this.timeoutId = null;
+              }
+              this.timeoutId = setTimeout(() => {
+                  this.timeoutId = null;
+                  //console.log("TimeOut fired !", this.layout);
+                  for (var i = 0; i < this.layout.length; i++) {
+                      if (this.layout[i].hasOwnProperty('altair')) {
+                          //console.log("Update", this.layout[i].i);
+                          vegaEmbed("#{{ html_id }}-" + this.layout[i].i, this.layout[i].altair.spec, this.layout[i].altair.options).then(function(result) {
+                              result.view.addEventListener("click", function(event, item) {
+                                  console.log("Click", item.datum); // for future use (link on click)
+                                  event.stopPropagation();
+                              });
+                          });
+                      }
+                  }
+              }, 200);
+
+          })
+      },
+      methods: {
+        drag: function (e) {
+            let parentRect = document.getElementById('grid-container').getBoundingClientRect();
+            let mouseInGrid = false;
+            if (((mouseXY.x > parentRect.left) && (mouseXY.x < parentRect.right)) && ((mouseXY.y > parentRect.top) && (mouseXY.y < parentRect.bottom))) {
+                mouseInGrid = true;
+            }
+            if (mouseInGrid === true && (this.layout.findIndex(item => item.i === 'drop')) === -1) {
+                this.layout.push({
+                    x: (this.layout.length * 2) % (this.colNum || 12),
+                    y: this.layout.length + (this.colNum || 12), // puts it at the bottom
+                    w: 2,
+                    h: 2,
+                    i: 'drop',
+                    title: 'dropped',
+                });
+            }
+            let index = this.layout.findIndex(item => item.i === 'drop');
+            if (index !== -1) {
+                try {
+                    this.$refs.gridlayout.$children[this.layout.length].$refs.item.style.display = "none";
+                } catch {
+                }
+                let el = this.$refs.gridlayout.$children[index];
+                el.dragging = {"top": mouseXY.y - parentRect.top, "left": mouseXY.x - parentRect.left};
+                let new_pos = el.calcXY(mouseXY.y - parentRect.top, mouseXY.x - parentRect.left);
+                if (mouseInGrid === true) {
+                    this.$refs.gridlayout.dragEvent('dragstart', 'drop', new_pos.x, new_pos.y, 1, 1);
+                    DragPos.i = String(index);
+                    DragPos.x = this.layout[index].x;
+                    DragPos.y = this.layout[index].y;
+                    DragPos.w_class = e.target.attributes.w_class.value;
+                    DragPos.w_params = e.target.attributes.w_params.value;
+                }
+                if (mouseInGrid === false) {
+                    this.$refs.gridlayout.dragEvent('dragend', 'drop', new_pos.x, new_pos.y, 1, 1);
+                    this.layout = this.layout.filter(obj => obj.i !== 'drop');
+                }
+            }
+        },
+        dragend: function (e) {
+            let parentRect = document.getElementById('grid-container').getBoundingClientRect();
+            let mouseInGrid = false;
+            if (((mouseXY.x > parentRect.left) && (mouseXY.x < parentRect.right)) && ((mouseXY.y > parentRect.top) && (mouseXY.y < parentRect.bottom))) {
+                mouseInGrid = true;
+            }
+            if (mouseInGrid === true) {
+                // alert(`Dropped element props:\n${JSON.stringify(DragPos)}`);
+                this.$refs.gridlayout.dragEvent('dragend', 'drop', DragPos.x, DragPos.y, 1, 1);
+                this.layout = this.layout.filter(obj => obj.i !== 'drop');
+                this.layout.push({
+                    x: DragPos.x,
+                    y: DragPos.y,
+                    w: 2,
+                    h: 2,
+                    i: DragPos.i,
+                    title: "Dropped",
+                    w_class: DragPos.w_class,
+                    w_params: DragPos.w_params,
+                });
+                this.$refs.gridlayout.dragEvent('dragend', DragPos.i, DragPos.x,DragPos.y,1,1);
+                try {
+                    this.$refs.gridlayout.$children[this.layout.length].$refs.item.style.display="block";
+                } catch {
+                }
+            }
+        },
+        layoutUpdatedEvent: function(newLayout) {
+            if (grid_params.editable) {
+              const params = new URLSearchParams();
+              let record = [];
+              for (var i = 0; i < newLayout.length; i++) {
+                  var widget = newLayout[i];
+                  record.push({
+                      x: widget.x,
+                      y: widget.y,
+                      w: widget.w,
+                      h: widget.h,
+                      i: widget.i,
+                      show_title: widget.show_title,
+                      title: widget.title,
+                      'w_class': widget.w_class,
+                      'w_params': widget.w_params
+                  });
+              }
+              let settings={};
+              settings[grid_params.portal_name + '.my-cockpit.grid-layout'] = record;
+              params.append('settings', JSON.stringify(settings));
+              axios.post(grid_params.settings_url,
+                  params, {
+                      headers: {
+                          'X-CSRFToken': csrftoken
+                      }
+                  }).then(function(response) {});
+                }
+        },
+        layoutReadyEvent: function(newLayout) {
+            let self = this;
+            let layout = [];
+            for (var i = 0; i < newLayout.length; i++) {
+                var widget = newLayout[i];
+                    layout.push({
+                        i: widget.i,
+                        title: widget.title,
+                        'w_class': widget.w_class,
+                        'w_params': widget.w_params
+                    });
+                }
+            axios.get('?id={{ html_id }}&layout=' + encodeURIComponent(JSON.stringify(layout))).then(function(response) {
+                for (var i = 0; i < app.layout.length; i++) {
+                    if (response.data.layout.hasOwnProperty(app.layout[i].i)) {
+                        self.layout[i].content = response.data.layout[app.layout[i].i].html;
+                        if ('altair' in response.data.layout[app.layout[i].i]) {
+                            self.layout[i].altair = response.data.layout[app.layout[i].i].altair;
+                        }
+                    } else {
+                        self.layout[i].content = "WIDGET NOT FOUND !";
+                    }
+                }
+                self.$forceUpdate();
+            });
+        },
+          layoutClick(event) {
+              const isClosest = event.target.closest(".grid-menu-entry");
+              if (!isClosest & this.menu_open) {
+                  this.menu_open = false;
+              }
+          },
+          openMenu: function() {
+              this.menu_open = true;
+          },
+          addItem: function(w_class) {
+              this.layout.push({
+                  'i': this.index,
+                  'title': "",
+                  'w_class': w_class,
+                  'w_params': '{}',
+                  'w': 2,
+                  'h': 2,
+                  'x': 0,
+                  'y': 0
+              });
+              this.index++;
+              this.menu_open = false;
+              this.layoutReadyEvent(this.layout);
+          },
+          itemEditOk: function(val) {
+              const index = this.layout.map(item => item.i).indexOf(val);
+              this.layout[index].title = this.edit_widget_title;
+              let params = {};
+              for (var attr in this.form) {
+                  params[attr] = this.form[attr].value;
+              }
+              this.layout[index].w_params = JSON.stringify(params);
+              this.grid_item_form_open = false;
+              this.layoutUpdatedEvent(this.layout);
+              this.layoutReadyEvent(this.layout);
+          },
+          itemEditCancel: function(val) {
+              this.grid_item_form_open = false;
+          },
+          editItem: function(val) {
+              const index = this.layout.map(item => item.i).indexOf(val);
+              this.edit_item = val;
+              this.edit_widget_title = this.layout[index].title;
+              this.form = grid_params.widget_defs[this.layout[index].w_class].m_params;
+              params = JSON.parse(this.layout[index].w_params);
+              for (var attr in this.form) {
+                  this.form[attr].value = params[attr];
+              }
+              this.grid_item_form_open = true;
+          },
+          removeItem: function(val) {
+              const index = this.layout.map(item => item.i).indexOf(val);
+              this.layout.splice(index, 1);
+          },
+          toggleLock: function() {
+              this.unlocked = !(this.unlocked);
+          },
+      },
+      template: `{% verbatim %}<div class="cockpit-container">
+                  <div v-if="unlocked" class="cockpit-palette">Palette
+                    <div @drag="drag" @dragend="dragend" class="droppable-element palette-item" draggable="true" unselectable="on" w_class="simple_text" w_params="{&quot;toto&quot;:10}">
+                        Droppable Element (Drag me!)
+                    </div>
+                  </div>
+                  <div id="grid-container" class="grid-container" @click="layoutClick">
+                  <grid-layout
+                  ref="gridlayout"
+                  :layout.sync="layout"
+                  v-bind:col-num="grid_params.columns"
+                  v-bind:row-height="grid_params.rows"
+                  :is-draggable="unlocked"
+                  :is-resizable="unlocked"
+                  :is-mirrored="false"
+                  :prevent-collision="true"
+                  :vertical-compact="false"
+                  v-bind:margin="[grid_params.h_spacing, grid_params.v_spacing]"
+                  :use-css-transforms="true"
+                  @layout-updated="layoutUpdatedEvent"
+                  @layout-ready="layoutReadyEvent"
+                  >
+          <grid-item v-for="item in layout"
+                     :x="item.x"
+                     :y="item.y"
+                     :w="item.w"
+                     :h="item.h"
+                     :i="item.i"
+                     :w_class="item.w_class"
+                     :w_params="item.w_params"
+                     :drag-allow-from="'.title'"
+                     :key="item.i"
+                     :class="{'add-border':item.title}"
+          >
+              <div class="frame" :class="{'with-title':item.title.length, 'unlocked':unlocked, 'without-title':!item.title.length}">
+                  <div class="content" :class="{'with-title':item.title.length}"  v-if="!item.title.length" v-html="item.content"></div>
+                  <div class="frame-overlay">
+                      <div class="title" v-if="item.title.length|unlocked">{{ item.title }}</div>
+                      <div class="remove" v-if="unlocked"><i class="fa-regular fa-edit" @click="editItem(item.i)"></i> <i class="fa-regular fa-trash-can" @click="removeItem(item.i)"></i></div>
+                      <div class="window"  v-if="item.title.length" v-html="item.content"></div>
+                  </div>
+              </div>
+
+          </grid-item>
+          <div v-if="editable" class="lock">
+             <i v-if="unlocked" class="fa-solid fa-lock-open" @click="toggleLock"></i>
+             <i v-if="!unlocked" style="color:#ccc" class="fa-solid fa-lock" @click="toggleLock"></i>
+             <i v-if="unlocked" class="fa-solid fa-plus grid-menu-entry" @click="openMenu"></i>
+             <div v-if="menu_open" class="grid-menu"><span>Type de widget</span><ul class="grid-menu"><li class="grid-menu-entry" v-for="entry in entries" @click="addItem(entry.w_class)">{{ entry.label }}</li></ul></div>
+          </div>
+          </grid-layout>
+          <div v-if="grid_item_form_open" class="dialog-background">
+              <div class="dialog">
+                  <div class="dialog-title"></div>
+                  <form class="dialog-form"><fieldset>
+                      <legend>Modification du Widget :</legend>
+                      <label>Titre</label><input v-model="edit_widget_title">
+                      <template v-for="entry in form">
+                          <label>{{ entry.label }}</label>
+                          <input v-if="entry.type=='int'" v-model.lazy="entry.value" type="number">
+                          <input v-else-if="entry.type=='boolean'" v-model.lazy="entry.value" type="checkbox">
+                          <input v-else-if="entry.type=='color'" v-model.lazy="entry.value" type="color">
+                          <select v-else-if="entry.type=='choice'" v-model.lazy="entry.value"><option v-for="choice in entry.choices" :value="choice[0]">{{ choice[1] }}</option></select>
+                          <input v-else="" v-model.lazy="entry.value">
+                      </template>
+                  </fieldset></form>
+                  <div class="form-buttons-box"><button class="dialog-button" @click="itemEditOk(edit_item)">Ok</button> <button class="dialog-button" @click="itemEditCancel(edit_item)">Annuler</button></div>
+              </div>
+          </div>
+          </div></div>{% endverbatim %}`,
+  });
+</script>

@@ -1,0 +1,40 @@
+/*
+*/
+
+div.parametric-analytic {
+    width: 100%;
+    height:100%;
+    display:grid;
+    grid-template:
+        "title title" auto
+        "setup main" auto
+        "filters main" auto
+        "axes main" minmax(max-content, 1fr)
+        / auto minmax(max-content, 1fr);
+  }
+
+div.parametric-analytic .title {
+ background-color: #aaa;
+ grid-area: title;
+}
+
+div.parametric-analytic .setup {
+    background-color: #f88;
+    grid-area: setup;
+}
+
+div.parametric-analytic .filters {
+    background-color: #8f8;
+    grid-area: filters;
+}
+
+div.parametric-analytic .axes {
+    background-color: #88f;
+    grid-area: axes;
+}
+
+div.parametric-analytic .main {
+    background-color: #ff8;
+    grid-area: main;
+}
+

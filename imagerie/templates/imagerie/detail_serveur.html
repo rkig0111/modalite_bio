@@ -1,0 +1,26 @@
+<table>
+    <tr>
+      <td><h3>id : </h3></td>
+      <td><h3>{{ serveur.id }}</h3></td>
+    </tr>
+     <tr>
+      <td><h3>dénomination :</h3></td>
+      <td><h3>{{ serveur.nom }}</h3></td>
+    </tr>
+    <tr>
+      <td><h3>aet :</h3></td>
+      <td><h3>{{ serveur.aet|default_if_none:""}}</h3></td>
+      </tr>
+    <tr>
+      <td><h3>ip:</h3></td>
+      <td><h3>{{ serveur.ip }}</h3></td>
+    </tr>
+    <tr>
+      <td><h3>masque:</h3></td>
+      <td><h3>{{ serveur.masque }}</h3></td>
+    </tr>
+    <tr>
+      <td><h3>port:</h3></td>
+      <td><h3>{{ serveur.port }}</h3></td>
+      </tr>
+  </table>

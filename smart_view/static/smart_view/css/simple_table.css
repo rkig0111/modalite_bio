@@ -1,0 +1,39 @@
+/* Basic tables */
+table.simple
+ {
+  /* background:#fff;*/
+  border:solid 1px #bbb;
+  border-collapse:collapse;
+  font-size:8pt;
+ }
+
+table.simple th
+{
+ padding: 3px;
+ background:#ddd;
+ border:solid 1px #bbb;
+}
+
+table.simple td
+{
+ padding: 3px;
+ border:solid 1px #bbb;
+}
+
+table.simple td.number {
+  text-align: right;
+}
+
+table.simple td.euros {
+  text-align: right;
+}
+
+table.simple td.center {
+  text-align: center;
+}
+
+table.simple td.key {
+    font-weight: bolder;
+    font-size: larger;
+    background-color: lightseagreen;
+}

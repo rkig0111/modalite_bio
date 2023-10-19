@@ -1,0 +1,280 @@
+{% load json_tags %}
+{% load url_kwargs %}
+<div class="smart-view-container">
+    <div class="smart-view-bar">
+
+        {% for filter_name, filter in bar_user_filters.items %}
+            <div class="smart-view-filter-bar">
+                <div class="smart-view-filter-bar-label"><p>{{ filter.label }}&nbsp;: </p></div>
+                {% for option in filter.choices %}
+                    <div class="smart-view-filter-bar-option" style="{{ option.style }}"><input
+                            data-fieldname="{{ filter.fieldname }}" data-filtertype="{{ filter.type }}" name="{{ filter_name }}" type="radio"
+                            value="{{ option.value }}" id="{{ filter_name }}_option_{{ forloop.counter }}"
+                            {% if forloop.first %} checked{% endif %}><label
+                            for="{{ filter_name }}_option_{{ forloop.counter }}">{{ option.label }}</label></div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+
+        <div id="{{ prefix }}-smart-view-menu-bar" class="smart-view-menu-bar">
+            {% include 'common/dropdown_menu.html' with menu=menu_left url_prefix=url_prefix only %}
+            <ul class="smart-view-menu-bar dropdown">{% if exports %}
+                <li><span>Exports&nbsp;<i class="fa fa-caret-down"></i></span>
+                    <ul class="sub_menu">{% for export_id, export in exports.items %}
+                        <!--  href="{{query_base|safe}}&export={{ export_id }}" -->
+                        <li>
+                            <a onclick="window.open({{ prefix }}_smart_view.export_url({{ prefix }}_smart_view, '{{ export_id }}')); return false;">
+                                {% if export.label %}{{ export.label }}{% else %}{{ export_id }}{% endif %}</a>
+                        </li>{% endfor %}
+                    </ul>
+                </li>{% endif %}{% if selectable_columns %}
+                <li><span>Colonnes&nbsp;<i class="fa fa-caret-down"></i></span>
+                    <ul class="sub_menu" id="{{ prefix }}-columns-selector">{% for sel_column in selectable_columns %}
+                        <li><input type="checkbox" name="{{ sel_column.id }}"
+                                   id="{{ prefix }}-column-select-{{ sel_column.id }}">&nbsp;<label
+                                for="{{ prefix }}-column-select-{{ sel_column.id }}">{{ sel_column.title }}</label></li>
+                    {% endfor %}</ul>
+                </li>{% endif %}{% if menu_user_filters %}
+                <li><span>Filtres&nbsp;<i class="fa fa-caret-down"></i></span>
+                    <ul class="sub_menu" id="{{ prefix }}-smart-view-filters">
+                        {% for filter_name, filter in menu_user_filters.items %}
+                            <li><label name="{{ filter_name }}">{{ filter.label }}</label>&nbsp;:&nbsp;
+                                {% if filter.type == 'select' %}
+                                    <select data-filtertype="{{ filter.type }}" name="{{ filter_name }}">{% for choice in filter.choices %}
+                                        <option value="{{ choice.value }}"{% if choice.selected %}
+                                                selected{% endif %}>{{ choice.label }}</option>{% endfor %}
+                                    </select>
+                                {% elif filter.type == 'contains' %}
+                                    <input data-filtertype="{{ filter.type }}" data-fieldname="{{ filter.fieldnames|to_json_attr }}"
+                                           name="{{ filter_name }}"{% if filter.default %}
+                                           value="{{ filter.default }}"{% endif %}>
+                                {% elif filter.type == 'like' %}
+                                           <input data-filtertype="{{ filter.type }}" data-fieldname="{{ filter.fieldnames|to_json_attr }}"
+                                                  name="{{ filter_name }}"{% if filter.default %}
+                                                  value="{{ filter.default }}"{% endif %}>{% else %}Unhandled
+                                    {{ filter.label }}{% endif %}</li>
+                        {% endfor %}</ul>
+                </li>{% endif %}{% if menu_user_filters %}</ul>
+                <div class="smart-view-filters-box" id="{{ prefix }}-smart-view-filters-box">
+                    {% for filter_name, filter in menu_user_filters.items %}
+                        <span class="smart-view-filter-box" data-field="{{ filter_name }}"><span
+                                class="filter-text">{{ filter.label }} = <###></span>&nbsp;<i
+                                class="fa fa-close"></i></span>
+                    {% endfor %}</div>{% else %}</ul>{% endif %}{% if views|length == 2 %}
+                <div class="views-buttons-box">
+                    <div class="icon-button{% if 'table' in views %} selected{% endif %}" data-view="table"><i
+                            class="fa fa-lg fa-table"></i></div>
+                    <div class="icon-button{% if 'form' in views %} selected{% endif %}" data-view="form"><i
+                            class="fa fa-lg fa-list"></i></div>
+                </div>{% endif %}{% if smart_view_options.current_row_manager %}
+                <div class="record-navbar">
+                    <div class="icon-button first-record"><i class="fa fa-step-backward"></i></div>
+                    <div class="icon-button previous-record"><i class="fa fa-chevron-left"></i></div>
+                    <span class="current-record">###</span> / <span class="records-count">###</span>
+                    <div class="icon-button next-record"><i class="fa fa-chevron-right"></i></div>
+                    <div class="icon-button last-record"><i class="fa fa-step-forward"></i></div>
+                </div>{% endif %}
+            <ul class="smart-view-menu-bar dropdown">
+                {% if menu_right %}
+                    {% for entry in menu_right %}
+                        <li><span>{% if entry.url_name or entry.url %}<a
+                                href="
+
+
+
+                                        {% if entry.url_name %}{% url_kwargs entry.url_name %}{% else %}{{ entry.url }}{% endif %}"
+                                {% if entry.new_window %}
+                                onclick="window.open(this.href); return false;" {% endif %}>{{ entry.label }}</a>{% else %}
+                            {{ entry.label }}{% endif %}{% if entry.entries %}&nbsp;<i
+                                class="fa fa-caret-down"></i></span>
+                            <ul class="sub_menu right">{% for subentry in entry.entries %}
+                                <li>{% if subentry.url_name or subentry.url %}<a
+                                        href="
+
+
+
+                                                {% if subentry.url_name %}{% url_kwargs subentry.url_name %}{% else %}{{ subentry.url }}{% endif %}"
+                                        {% if  subentry.new_window %}
+                                        onclick="window.open(this.href); return false;" {% endif %}>{{ subentry.label }}</a>{% else %}
+                                    {{ subentry.label }}{% endif %}
+                                </li>
+                            {% endfor %}
+                            </ul>
+                            </li>{% else %}</span></li>{% endif %}
+                    {% endfor %}
+                {% endif %}
+                {% if legend %}
+                    <li><span>Légende&nbsp;<i class="fa fa-caret-down"></i></span>
+                        <ul class="sub_menu legend right">{% for code, style in legend.items %}
+                            <li>
+                                <div style="{{ style|first }}">{{ style|last|safe }}</div>
+                            </li>{% endfor %}
+                        </ul>
+                    </li>{% endif %}</ul>
+        </div>
+    </div>
+    <div class="smart-views">
+        <div id="{{ prefix }}-smart-view-table" class="smart-view-table"
+             style="{% if 'table' not in views %}display:none; {% endif %}"></div>
+        <div id="{{ prefix }}-smart-view-form" class="smart-view-form"
+             style="{% if 'form' not in views %}display:none; {% endif %}overflow:auto;">
+            <form>{{ form.html }}</form>
+        </div>
+    </div>
+</div>
+<script>
+    var options = {{ smart_view_options|to_json }};
+    if (window.luxon) luxon.Settings.defaultLocale = 'fr';
+    {% if manager %}
+        options.manager = {
+            'smart_view': {{ manager.prefix }}_smart_view,
+            'manager_fieldname': '{{ manager.fieldname }}',
+            'managed_fieldname': '{{ manager.managed_fieldname }}',
+        };
+    {% else %}
+        options.fragment = window.location.hash.substring(1), // scroll to this row on first load if provided
+    {% endif %}
+    options.tooltip_formatter = function (data) {
+        return `{{ smart_view_tooltip_formatter|safe }}`.replace(/<br>/g, '').replace(/<p>/g, '').replace(/<\/p>/g, '').replace(/<b>/g, '\n  ').replace(/<\/b>/g, '').replace(/null/g, '-')
+    };
+    let {{ prefix }}_smart_view = new SmartView("{{ prefix }}");
+    {{ prefix }}_smart_view.init({
+        // JSON response processing
+        ajaxResponse: function (url, params, response) {
+            if (window.close_all_menus) window.close_all_menus();
+            //return the data property of a response json object (some JSON servers cannot send list as root object)
+            return response.data;
+        },
+        // Common settings
+        //height:1000,
+        height: '100%',
+        //tableBuilt: {{ prefix }}_col_sel,
+        layout: 'fitDataFill',
+        movableColumns: true,
+        // renderVerticalBuffer:3000,
+        // renderHorizontal:'virtual',
+        persistence: {'columns': ['width'], 'sort': true},
+        // responsiveLayout: 'hide', // hide rows that no longer fit
+        columnDefaults: {
+            vertAlign: 'middle', //vertically center cell contents{% if tooltips %}
+                tooltip: function (cell) {
+                    return SmartView.tooltip(cell, {{ tooltips|to_json }})
+                },{% endif %}
+        }, {% if smart_view_options.current_row_manager %}
+            selectable: 1,{% endif %}
+        scrollToColumnPosition: "center", // position column in the center of the table when scrolled to
+        scrollToRowPosition: "center", // position row in the center of the table when scrolled to
+        {% if tooltips %}
+            tooltipGenerationMode: 'hover',{% endif %}
+        // Columns descriptions
+        columns: [
+                {% for column in columns %}{{% if column.field %}
+                    field: '{{ column.field }}',{% endif %}
+                    title: '{{ column.title }}',{% if column.hidden %}
+                    visible: false,{% endif %}{% if column.header_sort is not None %}
+                    headerSort: {{ column.header_sort|yesno:"true,false,null" }},{% endif %}{% if column.help_text %}
+                    headerTooltip: "{{ column.title }} :\n{{ column.help_text|escapejs }}".replace(/&#x27;/g, "'"),
+                    {% else %}
+                    headerTooltip: "{{ column.title }}".replace(/&#x27;/g, "'"),{% endif %}{% if column.hoz_align %}
+                    hozAlign: '{{ column.hoz_align }}',{% endif %}{% if column.css_class %}
+                    cssClass: '{{ column.css_class }}',{% endif %}{% if column.width %}
+                    width: '{{ column.width }}',{% endif %}{% if column.min_width %}
+                    minWidth: '{{ column.min_width }}',{% endif %}{% if column.max_width %}
+                    maxWidth: '{{ column.max_width }}',{% endif %}{% if column.width_grow %}
+                    widthGrow: '{{ column.width_grow }}',{% endif %}{% if column.show_priority %}
+                    responsive: '{{ column.show_priority }}',{% endif %}{% if column.mutator %}
+                    mutator: {{ column.mutator|safe }},{% endif %}{% if column.mutator_params %}
+                    mutatorParams: {{ column.mutator_params|to_json }},{% endif %}{% if column.formatter %}
+                    formatter: {% if column.formatter|first == "'"%}{{ column.formatter|safe }}{% else %}function (cell, formatParams, onRendered) {
+                        return {{ prefix }}_smart_view.{{ column.formatter }}_fmt({{ prefix }}_smart_view, cell, formatParams, onRendered);
+                    }{% endif %},{% endif %}{% if column.formatter_params %}
+                    formatterParams: {{ column.formatter_params|to_json }},{% endif %}{% if column.editor %}
+                    editor: {{ column.editor|safe }},{% endif %}{% if column.editor_params %}
+                    editorParams: {{ column.editor_params|to_json }},{% endif %}{% if column.sorter %}
+                    sorter: {{ column.sorter|safe }},{% endif %}{% if column.sorter_params %}
+                    sorterParams: {{ column.sorter_params|to_json }},{% endif %}{% if column.frozen %}
+                    frozen: true,{% endif %}{% if column.footer_data %}
+                    bottomCalc: '{{ column.footer_data }}',{% if column.footer_data_params %}
+                    bottomCalcParams: {{ column.footer_data_params|safe }},{% endif %}
+                    {% if not column.footer_data_formatter %}
+                        {% if column.footer_data == "sum" or column.footer_data == "sum_if_ext" %}
+                            {% if column.formatter %}
+                                bottomCalcFormatter: {{ column.formatter|safe }},
+                            {% endif %}
+                            {% if column.formatter_params %}
+                                bottomCalcFormatterParams: {{ column.formatter_params|to_json }},
+                            {% endif %}
+                        {% endif %}
+                    {% else %}
+                        bottomCalcFormatter: {{ column.footer_data_formatter|safe }},
+                        bottomCalcFormatterParams: {{ column.footer_data_formatter_params|to_json }},
+                    {% endif %}
+
+                    {% endif %}{% if column.columns %}
+                    columns: [{% for sub_column in column.columns %}{
+                            minWidth: 24,
+                            maxWidth: 24,
+                            headerSort: false,
+                            resizable: false,
+                            tooltip: "{{ sub_column.tooltip }}",
+                            cssClass: 'smart-view-tool-cell',
+                            hozAlign: 'center',
+                            formatter: function (cell, formatParams, onRendered) {
+                                return {{ prefix }}_smart_view.tool_{{ sub_column.tool }}_fmt({{ prefix }}_smart_view, cell, formatParams, onRendered);
+                            },
+                            cellClick: function (e, cell) {
+                                let id = cell.getRow().getData().{{ sub_column.url_arg_fieldname|default:id_field }};
+                                {% if sub_column.choices %}
+                                    let choices = {{ sub_column.choices|to_json }};
+
+                                    form_str = '';
+
+                                    for (const [c_key, c_value] of Object.entries(choices)) {
+                                        let n_choices = 0;
+                                        let lookup = c_value.lookup;
+                                        let choice_column_values;
+                                        if (c_value.column) {
+                                            choice_column_values = [cell.getRow().getData()[c_value.column]];
+                                        } else {
+                                            choice_column_values = JSON.parse(cell.getRow().getData()[c_value.json_column]);
+                                        }
+
+                                        let choices_options = '';
+                                        let checked_choice = ' checked';
+                                        for (const [key, value] of Object.entries(lookup)) {
+                                            // console.log(`${key}: ${value}`);
+                                            if (choice_column_values.includes(key)) {
+                                                choices_options += '<input class="left" type="radio" id="choice-' + c_key + '-' + key + '" name="choice-' + c_key + '" value="' + key + '"' + checked_choice + '><label for="choice-' + c_key + '-' + key + '">' + value + '</label>';
+                                                checked_choice = '';
+                                                n_choices++;
+                                            }
+                                        }
+                                        let hidden_str = '';
+                                        if (n_choices === 1) {
+                                            hidden_str = ' style="display:none;"';
+                                        }
+                                        form_str += '<fieldset id="dialog_choice"' + hidden_str + '><legend>' + c_value.title + '</legend>' + choices_options + '</fieldset>';
+                                    }
+                                    $('#main-dialog .dialog-message').html('<form id="dialog-form">' + form_str + '</form>');
+                                    $('#main-dialog-ok').html("Ok").click(function (ev) {
+                                        let data = new FormData(document.querySelector("#dialog-form"));
+                                        console.log(data.get('choice'));
+                                        let made_choices = {};
+                                        for (const [c_key, c_value] of Object.entries(choices)) {
+                                            made_choices[c_key] = [data.get('choice-' + c_key)];
+                                        }
+                                        window.location.href = `{{ sub_column.url }}?choices=` + encodeURI(JSON.stringify(made_choices));
+                                    });
+                                    $('#main-dialog').show();
+                                {% else %}
+                                    window.location.href = `{{ sub_column.url }}`;
+                                {% endif %}
+                            },
+                            },{% endfor %}],{% endif %}
+                    },
+                {% endfor %}]
+    }, options);
+    {% if 'table' not in views %}document.getElementById('{{prefix}}-smart-view-table').style.display='none';
+        // Quick hack
+    {% endif %}
+</script>

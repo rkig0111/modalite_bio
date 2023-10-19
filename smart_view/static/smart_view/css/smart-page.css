@@ -1,0 +1,13 @@
+.smart-page-table {
+    display: grid;
+    grid-auto-rows: auto auto minmax(0, 1fr);
+
+}
+
+.smart-page-header-message:not(:empty) {
+    border: solid 1px black;
+    padding: 5px;
+    margin-bottom: 5px;
+    font-style: italic;
+    text-align: left;
+}

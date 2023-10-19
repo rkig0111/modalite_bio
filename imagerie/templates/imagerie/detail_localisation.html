@@ -1,0 +1,34 @@
+<table>
+    <tr>
+      <td><h3>id : </h3></td>
+      <td><h3>{{ localisation.id }}</h3></td>
+    </tr>
+    <tr>
+      <td><h3>code :</h3></td>
+      <td><h3>{{ localisation.code }}</h3></td>
+      </tr>
+    <tr>
+      <td><h3>dénomination :</h3></td>
+      <td><h3>{{ localisation.nom|default_if_none:"" }}</h3></td>
+    </tr>
+    <tr>
+       <td><h3>nomutil :</h3></td>
+       <td><h3>{{ localisation.nomutil|default_if_none:"" }}</h3></td>
+      </tr>
+      <tr>
+        <td><h3>tel :</h3></td>
+        <td><h3>{{ localisation.tel|default_if_none:"" }}</h3></td>
+      </tr>
+    <tr>
+      <td><h3>divers :</h3></td>
+      <td><h3>{{ localisation.divers|default_if_none:""}}</h3></td>
+      </tr>
+    <tr>
+      <td><h3>date création :</h3></td>
+      <td><h3>{{ localisation.datecreat }}</h3></td>
+    </tr>
+    <tr>
+      <td><h3>date modification :</h3></td>
+      <td><h3>{{ localisation.datemodif }}</h3></td>
+    </tr>
+  </table>

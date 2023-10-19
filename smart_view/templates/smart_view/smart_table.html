@@ -1,0 +1,9 @@
+{% load json_tags %}
+<div id="{{ my_id }}" class="smart-table-container">
+    <div class="placeholder"></div>
+    <script>
+        let placeholder = document.getElementById('{{ my_id }}').getElementsByClassName("placeholder")[0];
+        let tabulator = new Tabulator(placeholder, {{ options|to_json }});
+        console.debug(tabulator);
+    </script>
+</div>

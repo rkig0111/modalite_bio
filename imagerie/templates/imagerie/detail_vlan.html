@@ -1,0 +1,27 @@
+
+<table>
+    <tr>
+      <td><h3>id : </h3></td>
+      <td><h3>{{ vlan.id }}</h3></td>
+    </tr>
+    <tr>
+      <td><h3>numéro :</td>
+      <td><h3>{{ vlan.num }}</h3></td>
+    </tr>
+     <tr>
+      <td><h3>dénomination :</h3></td>
+      <td><h3>{{ vlan.nom }}</h3></td>
+    </tr>
+    <tr>
+      <td><h3>divers :</h3></td>
+      <td><h3>{{ vlan.divers|default_if_none:""}}</h3></td>
+      </tr>
+    <tr>
+      <td><h3>date création :</h3></td>
+      <td><h3>{{ vlan.datecreat }}</h3></td>
+    </tr>
+    <tr>
+      <td><h3>date modification :</h3></td>
+      <td><h3>{{ vlan.datemodif }}</h3></td>
+    </tr>
+  </table>

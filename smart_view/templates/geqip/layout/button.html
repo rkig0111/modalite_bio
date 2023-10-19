@@ -1,0 +1,20 @@
+{% if button.type == 'reset' %}
+ <button type="reset" {{ button.flat_attrs|safe }} onclick="window.location.href='./?{{ button.redirect_url_params|force_escape }}'">{{ button.label }}</button>
+{% else %}
+ <input type="hidden" name="{{ button.value }}-message" value="{{ button.message }}">
+ <input type="hidden" name="{{ button.value }}-redirect" value="{{ button.redirect }}">
+ <input type="hidden" name="{{ button.value }}-redirect_params" value="{{ button.redirect_params|force_escape }}">
+ <input type="hidden" name="{{ button.value }}-redirect_url_params" value="{{ button.redirect_url_params|force_escape }}">
+ <button type="{{ button.type }}" name="form_action" value="{{ button.value }}" {{ button.flat_attrs|safe }}>{{ button.label }}</button>
+{% endif %}
+{% comment %}
+<input type="{{ input.input_type }}"
+       name="{% if input.name|wordcount > 1 %}{{ input.name|slugify }}{% else %}{{ input.name }}{% endif %}"
+       value="{{ input.value }}"
+        {% if input.input_type != "hidden" %}
+       class="{{ input.field_classes }}"
+       id="{% if input.id %}{{ input.id }}{% else %}{{ input.input_type }}-id-{{ input.name|slugify }}{% endif %}"
+        {% endif %}
+        {{ input.flat_attrs|safe }}
+        />
+{% endcomment %}

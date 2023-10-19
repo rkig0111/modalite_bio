@@ -1,0 +1,5 @@
+{% if 'disabled' in widget.attrs %}
+<input type="hidden" name="{{ widget.name }}"{% if widget.value != None %} value="{{ widget.value|stringformat:'s' }}"{% endif %}{% include "django/forms/widgets/attrs.html" %}><input disabled="" value="{{ display_value }}">
+{%  else %}
+<input type="{{ widget.type }}" name="{{ widget.name }}"{% if widget.value != None %} value="{{ widget.value|stringformat:'s' }}"{% endif %}{% include "django/forms/widgets/attrs.html" %}>
+{%  endif %}

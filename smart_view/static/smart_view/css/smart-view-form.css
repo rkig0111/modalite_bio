@@ -1,0 +1,285 @@
+h1 {
+    margin-bottom: 0;
+}
+
+.smart-view-form {
+    margin: 0 10%;
+    width: 80%;
+}
+
+.smart-view-form .hidden {
+    display: none !important;
+}
+
+.smart-view-form fieldset {
+    display: grid;
+    grid-template-columns: auto;
+    grid-gap: 6px;
+    border: none;
+}
+
+.smart-view-form fieldset.level-2 {
+    grid-gap: 10px 0;
+    border-top: 10px solid var(--main-color-theme-1b);
+    border-bottom: 1px solid var(--main-color-theme-1b);
+}
+
+.smart-view-form fieldset.level-3 {
+    grid-gap: 10px 0;
+    border-top: 5px solid var(--main-color-theme-1b);
+    border-bottom: 1px solid var(--main-color-theme-1b);
+}
+
+.smart-view-form legend {
+    font-weight: bold;
+    float: left;
+    grid-column: 1/last-colmun;
+    padding: 6px;
+    margin: 0 -10px 15px -10px;
+    border-bottom: 1px solid var(--main-color-theme-1b);
+    width: 100%;
+}
+
+.smart-view-form fieldset.level-1>legend {
+    font-size: 24px;
+    text-align: center;
+    border-bottom: none;
+}
+
+.smart-view-form fieldset.level-2>legend {
+    font-size: 20px;
+}
+
+.smart-view-form fieldset.level-3>legend {
+    font-size: 16px;
+}
+
+.smart-view-form span.label {
+    display: flex;
+    align-items: center;
+    text-align: right;
+    justify-content: flex-end;
+    padding: 0 5px;
+    margin: 0 0 0 15px;
+}
+
+.smart-view-form input {
+    width: 100%;
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.smart-view-form input[readonly] {
+    background-color: #faf9f8;
+}
+
+.smart-view-form select {
+    background-color: #fff;
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    min-width: 10px;
+}
+
+.smart-view-form select.on_error {
+    background: #fdd;
+}
+
+.smart-view-form textarea {
+    width: 100%;
+    height: 40px;
+    resize: vertical;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.smart-view-form textarea[readonly] {
+    background-color: #faf9f8;
+}
+
+.smart-view-form .ro-field {
+    width: calc(100% - 10px);
+    padding: 5px;
+    border: 1px solid #ccc;
+    background-color: #faf9f8;
+    color: #777;
+    border-radius: 5px;
+    min-height: 15px;
+}
+
+.smart-view-form .form-buttons-box {
+    grid-column: 1/last-column;
+    display: flex;
+    justify-content: center;
+}
+
+.smart-view-form input[type=button] {
+    width: initial;
+}
+
+.smart-view-form input[type=submit] {
+    width: initial;
+}
+
+.smart-view-form button {
+    padding: 6px;
+    border-radius: 5px;
+    border: 2px outset lightgrey;
+    margin: 12px;
+}
+
+.smart-view-form span.field {
+    display: flex;
+    align-items: center;
+    text-align: left;
+    justify-content: flex-start;
+}
+
+.smart-view-form .field-error {
+    font-weight: bold;
+}
+
+.smart-view-form .smart-multichoices label {
+    display: flex;
+}
+
+.smart-view-form .smart-multichoices input {
+    width: auto;
+    margin: 0 3px 3px 0;
+}
+
+/* To (almost) avoid little arrows on number inputs */
+/* Chrome, Safari, Edge, Opera */
+input.no-arrows::-webkit-outer-spin-button,
+input.no-arrows::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input.no-arrows[type=number] {
+    -moz-appearance: textfield;
+}
+
+.form-icon {
+    width: 16px;
+    height: 16px;
+    margin: 3px;
+    position: relative;
+}
+
+h3 .form-icon {
+    top: -3px;
+}
+
+.form-icon.help {
+    background: url("../img/question.png");
+    background-size: 100%;
+}
+
+.form-icon.info {
+    background: url("../img/information.png");
+    background-size: 100%;
+}
+
+.form-icon.warning {
+    background: url("../img/exclamation.png");
+    background-size: 100%;
+}
+
+.form-icon.error {
+    background: url("../img/cross-circle.png");
+    background-size: 100%;
+}
+
+.on_error {
+    background: #fdd;
+}
+
+.on_warning {
+    background: #fdb;
+}
+
+.form-help {
+    grid-column: 1/last-column;
+    min-height: 1.5em;
+    margin: 5px;
+    padding: 3px;
+    background: #f3f3f3;
+    /* TODO: à mettre dans une variable */
+    font-style: italic;
+    font-size: 14px;
+}
+
+.help-error {
+    background: #fbb;
+    color: #000;
+    padding: 5px;
+}
+
+.help-warning {
+    padding: 5px;
+    background: #fdb;
+}
+
+.help-hint {
+    padding: 5px;
+    background: #ffb;
+}
+
+.help-info {
+    padding: 5px;
+    background: #ffe;
+    font-weight: bold;
+}
+
+/* Tooltip container */
+.tooltip {
+    /* position: relative;
+  display: inline-block;
+   border-bottom: 1px dotted black;  If you want dots under the hoverable text */
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 300px;
+    background-color: #fffff0;
+    color: #000;
+    text-align: left;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #000;
+
+    z-index: 100;
+
+    /* Position the tooltip text - see examples below! */
+    position: relative;
+    top: 20px;
+    /* At the top of the tooltip */
+    left: -10px;
+    box-shadow: 5px 5px 5px 1px rgba(0, 0, 0, 0.4);
+    font-size: 13px;
+    font-weight: normal;
+}
+
+/* Tooltip arrow */
+.tooltip .tooltiptext::after {
+    content: " ";
+    position: absolute;
+    top: -12px;
+    /* At the top of the tooltip */
+    left: 11px;
+    margin-left: 0;
+    border-width: 6px;
+    border-style: solid;
+    border-color: transparent transparent black transparent;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext:not(:empty) {
+    visibility: visible;
+}

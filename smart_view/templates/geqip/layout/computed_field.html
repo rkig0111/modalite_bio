@@ -1,0 +1,12 @@
+{% spaceless %}
+<span id="label-{{ field.auto_id }}-container" class="label" style="grid-column:{{ smart_label_column }}">
+  <div class="form-icon {% if field.help_text %}help {% endif %}tooltip">
+      <div id="help-{{ field.auto_id }}" class="tooltiptext">{{ field.help_text|default:'' }}
+      </div>
+  </div>
+  <label id="label-{{field.auto_id}}">{{ field.label }}</label>&nbsp;:&nbsp;
+</span>
+<span class="field" style="grid-column:{{ smart_field_column }}">
+  <span class="ro-field" id="{{field.auto_id}}">{{ field.value|default:'' }}</span>
+</span>
+{% endspaceless %}

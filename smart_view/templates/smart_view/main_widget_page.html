@@ -1,0 +1,12 @@
+{% extends "common/base.html" %}
+{% load static %}
+{% block more_header %}
+    {{ block.super }}
+    {{ main_widget.media }}
+{% endblock more_header %}
+{% block tab_contents %}
+    <div>
+        <h1>{{ title }}</h1>
+        {{ main_widget }}
+    </div>
+{% endblock tab_contents %}

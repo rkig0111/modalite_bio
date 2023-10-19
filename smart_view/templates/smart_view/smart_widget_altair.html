@@ -1,0 +1,8 @@
+<div id="{{ html_id }}" style="max-height:100px; min-height:100%; min-width:100%; max-width:100px;"></div>
+{% if not html_only %}<script type="text/javascript">
+    vegaEmbed("#{{ html_id }}", {{ spec | safe }}, {{ options | safe }}).then(function (result) {
+        result.view.addEventListener("click", function (event, item) {
+            console.log("Click", item.datum);
+        });
+    });
+</script>{%  endif %}

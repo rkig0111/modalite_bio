@@ -1,0 +1,11 @@
+{% if etablissements %}
+<ul>
+{% for etablissement in etablissements %}
+<h5>
+    <li><a href="{{ modele }}/detail/{{ etablissement.id }}">{{ etablissement.id }} {{ etablissement.nom }} {{ etablissement.divers }}</a></li>
+</h5>
+{% endfor %}
+</ul>
+{% else %}
+    <p> il n'y a pas d' établissement à afficher. </p>
+{% endif %}

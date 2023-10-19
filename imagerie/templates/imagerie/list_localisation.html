@@ -1,0 +1,11 @@
+{% if localisations %}
+<ul>
+{% for localisation in localisations %}
+<h5>
+    <li><a href="{{ modele }}/detail/{{ localisation.id }}"> {{ localisation.id }}  {{ localisation.code }} {{ localisation.nom }} {{ localisation.nomutil }} {{ localisation.tel }}</a></li>
+</h5>
+{% endfor %}
+</ul>
+{% else %}
+    <p> il n'y a pas de marque à afficher. </p>
+{% endif %}

@@ -1,0 +1,86 @@
+/* Basic jQuery DropDown Menu
+    LEVEL ONE
+*/
+
+ul.dropdown {
+    position: relative;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    display: grid;
+    grid-auto-flow: column;
+}
+
+ul.dropdown li {
+    float: left;
+    position: relative;
+    cursor: pointer;
+    margin: 0;
+}
+
+ul.dropdown li.inactive {
+    cursor: default;
+}
+
+ul.dropdown li a {
+    display: block;
+}
+
+ul.dropdown ul li a {
+    border-right: none;
+    width: 100%;
+    display: inline-block;
+}
+
+ul.dropdown li:last-child a {
+    border-right: none;
+}
+
+/* Doesn't work in IE */
+
+ul.dropdown li.inactive:hover {
+    cursor: default;
+}
+
+ul.dropdown li.active-tab:hover {
+    cursor: default;
+}
+
+/* LEVEL TWO */
+
+ul.dropdown ul {
+    width: max-content;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none inside;
+    z-index: 1;
+
+    max-height: 0;
+    -webkit-transition: max-height .5s;
+    -o-transition: max-height .5s;
+    transition: max-height .5s;
+    overflow: hidden;
+}
+
+ul.dropdown ul.right-menu {
+    right: 0;
+    left: auto;
+}
+
+ul.dropdown ul li {
+    float: none;
+}
+
+
+/*
+    LEVEL THREE
+*/
+ul.dropdown ul ul {
+    left: 100%;
+    top: 0;
+}
+
+/* -- */

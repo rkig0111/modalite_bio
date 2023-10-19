@@ -1,0 +1,8 @@
+<fieldset {% if html_id %}id="{{ html_id }}"{% endif %}
+    {% if fieldset.css_class or form_style %}class="{{ fieldset.css_class }} {{ form_style }}"{% endif %}
+    {{ fieldset.flat_attrs|safe }}>
+    {% if legend %}<legend>{{ legend|safe }}</legend>{% endif %}
+    {% if fieldset.level == 1 %}<div id="main-form-help" class="form-help">{{ message|default:''|safe }}</div>{% else %}
+    {% if help_text %}<div class="form-help">{{ help_text|default:''|safe }}</div>{% endif %}{% endif%}
+    {{ fields|safe }}
+</fieldset>
