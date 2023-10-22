@@ -1,11 +1,13 @@
 from django.http import Http404
 from django.shortcuts import render, get_object_or_404, get_list_or_404
 from django.http import HttpResponse
-from .models import Vlan, Appareil, Etablissement, Localisation, Marque, AppareilType, Liste, Serveur
+from .models import Vlan, Appareil, Etablissement, Localisation, Marque, Appareiltype, Modalite, Serveur
+# from smart_view.smart_fields import ConditionnalSmartField, ToolsSmartField
+# from smart_view.smart_view import SmartView, ComputedSmartField
+# view.smart_fields
 
 def index(request):
-    tables = ["Vlan", "Appareil", "Etablissement", "Localisation", "Marque", "AppareilType", "Liste", "Serveur"]
-    # return HttpResponse("Hello, world. You're at the polls index.")
+    tables = ["Vlan", "Appareil", "Etablissement", "Localisation", "Marque", "Appareiltype", "Modalite", "Serveur"]
     return render(request, "imagerie/index.html", {"tables": tables})
 
 def list_vlan(request):
@@ -55,21 +57,21 @@ def detail_marque(request, marque_id):
 
 
 def list_appareiltype(request):
-    appareiltypes = get_list_or_404(AppareilType)
+    appareiltypes = get_list_or_404(Appareiltype)
     return render(request, "imagerie/list_appareiltype.html", {"appareiltypes": appareiltypes, "modele": "appareiltype"})
 
 def detail_appareiltype(request, appareiltype_id):
-    appareiltype = get_object_or_404(AppareilType, pk=appareiltype_id)
+    appareiltype = get_object_or_404(Appareiltype, pk=appareiltype_id)
     return render(request, 'imagerie/detail_appareiltype.html', {'appareiltype': appareiltype})
 
 
-def list_liste(request):
-    listes = get_list_or_404(Liste)
-    return render(request, "imagerie/list_liste.html", {"listes": listes, "modele": "liste"})
+def list_modalite(request):
+    modalites = get_list_or_404(Modalite)
+    return render(request, "imagerie/list_modalite.html", {"modalites": modalites, "modele": "modalite"})
 
-def detail_liste(request, liste_id):
-    liste = get_object_or_404(Liste, pk=liste_id)
-    return render(request, 'imagerie/detail_liste.html', {'liste': liste})
+def detail_modalite(request, modalite_id):
+    modalite = get_object_or_404(Modalite, pk=modalite_id)
+    return render(request, 'imagerie/detail_modalite.html', {'modalite': modalite})
 
 
 def list_serveur(request):
@@ -83,5 +85,5 @@ def detail_serveur(request, serveur_id):
     return render(request, 'imagerie/detail_serveur.html', {'serveur': serveur})
 
 
-def ping_liste(request, liste_id):
-    return render(request, 'imagerie/ping_liste.html', {'liste': liste})
+"""def ping_modalite(request, modalite_id):
+    return render(request, 'imagerie/ping_liste.html', {'liste': liste})"""

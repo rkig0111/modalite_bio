@@ -1,0 +1,11 @@
+{% if modalites %}
+<ul>
+{% for modalite in modalites %}
+<h5>
+    <li><a href="{{ modele }}/detail/{{ modalite.id }}"> {{ modalite.id }}  {{ modalite.addrip }} {{ modalite.aet }} {{ modalite.port }} {{ modalite.macadresse }} {{ modalite.appareil }} {{ modalite.appareiltype }} {{ modalite.marque }} {{ modalite.vlan }}</a></li>
+</h5>
+{% endfor %}
+</ul>modalite
+{% else %}
+    <p> il n'y a pas de modalite à afficher. </p>
+{% endif %}
