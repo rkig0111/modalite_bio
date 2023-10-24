@@ -125,3 +125,18 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Do not modify code below, please !
 
 from modalite_bio.instance_settings import * 
+
+"""
+# par exemple, contenu du fcihier <BASE_DIR/instance_settings.py> pour une 
+# utilisation locale avec une BDD sqlite3 non prise en charge par 'git'.
+# rajouter le nom du fichier dans .gitignore !
+
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": "db.sqlite3",
+    }
+}
+
+print("base locale utilisée : ", DATABASES["default"]["NAME"])
+"""

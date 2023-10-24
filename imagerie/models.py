@@ -162,7 +162,7 @@ class Ras(models.Model):
 class Resspartage(models.Model):
     nom = models.CharField(blank=True, null=True, max_length=30) 
     identif = models.CharField(blank=True, null=True, max_length=30) 
-    password = models.CharField(blank=True, null=True, max_length=30) 
+    password = models.CharField(blank=True, null=True, max_length=30, default="voir TeamPass") 
     divers = models.CharField(max_length=255, blank=True, null=True)
     datecreat = models.DateTimeField(auto_now_add=True, verbose_name='date de création')
     datemodif = models.DateTimeField(auto_now=True, verbose_name='date de modification')    
@@ -177,7 +177,7 @@ class Resspartage(models.Model):
 
 class Compte(models.Model):
     login = models.CharField(blank=True, null=True, max_length=30) 
-    password = models.CharField(blank=True, null=True, max_length=30) 
+    password = models.CharField(blank=True, null=True, max_length=30, default="voir TeamPass") 
     divers = models.CharField(max_length=255, blank=True, null=True)
     datecreat = models.DateTimeField(auto_now_add=True, verbose_name='date de création')
     datemodif = models.DateTimeField(auto_now=True, verbose_name='date de modification')    
@@ -194,7 +194,7 @@ class Projet(models.Model):
     nom = models.CharField(blank=True, null=True, max_length=30) 
     service = models.ForeignKey('Service', null=True, blank=True, on_delete=models.PROTECT, help_text=_(" Service "), )  # related_name='Service', 
     editeur = models.CharField(max_length=50, blank=True, null=True)
-    logicielid = models.ForeignKey('Logiciel', null=True, blank=True, on_delete=models.PROTECT, related_name='Logiciel', help_text=_(" Logiciel "), )
+    logiciel = models.ForeignKey('Logiciel', null=True, blank=True, on_delete=models.PROTECT, help_text=_(" Logiciel "), )  # , related_name='Logiciel'
     divers = models.CharField(max_length=255, blank=True, null=True)
     datecreat = models.DateTimeField(auto_now_add=True, verbose_name='date de création')
     datemodif = models.DateTimeField(auto_now=True, verbose_name='date de modification')
@@ -205,7 +205,7 @@ class Projet(models.Model):
         db_table = 'Projet'
 
     def __str__(self):
-        return "{0}  {1}".format(self.nom)
+        return "{0}".format(self.nom)
 
 class Machine(models.Model):    
     etablissement = models.ForeignKey('Etablissement', null=True, blank=True, on_delete=models.PROTECT, related_name='Etablissement', help_text=_(" Etablissement "), )
@@ -213,7 +213,7 @@ class Machine(models.Model):
     appareiltype = models.ForeignKey('Appareiltype', null=True, blank=True, on_delete=models.PROTECT, related_name='Appareiltype', help_text=_(" Appareiltype "), ) 
     marque = models.ForeignKey('Marque', null=True, blank=True, on_delete=models.PROTECT, related_name='Marque', help_text=_(" Marque "), ) 
     addrip = models.GenericIPAddressField(default="0.0.0.0", blank=True, null=True)
-    vlanid = models.ForeignKey('Vlan', null=True, blank=True, on_delete=models.PROTECT, related_name='Vlan', help_text=_(" Vlan "), ) 
+    vlan = models.ForeignKey('Vlan', null=True, blank=True, on_delete=models.PROTECT, related_name='Vlan', help_text=_(" Vlan "), ) 
     hostname = models.CharField(max_length=30, blank=True, null=True) 
     systeme = models.CharField(max_length=30, blank=True, null=True)  
     inventaire = models.CharField(max_length=24, blank=True, null=True)
@@ -225,6 +225,7 @@ class Machine(models.Model):
     class Meta:
         managed = True
         db_table = 'Machine'
+        ordering = ["addrip"]
 
     def __str__(self):
         return "{0}".format(self.addrip)
@@ -253,13 +254,15 @@ class Modalite(models.Model):
     service = models.ForeignKey('Service', null=True, blank=True, on_delete=models.PROTECT, related_name='Service', help_text=_(" Service ") )
     srvdicom = models.BooleanField(default=False)
     modalite = models.CharField(max_length=2, blank=True, null=True) 
-    mask = models.GenericIPAddressField(default="0.0.0.0", blank=True, null=True)
-    passerelle = models.GenericIPAddressField(default="0.0.0.0", blank=True, null=True)
+    mask = models.GenericIPAddressField(default="255.255.255.0", blank=True, null=True)
+    passerelle = models.GenericIPAddressField(default="0.0.0.1", blank=True, null=True)
     aet = models.CharField(max_length=30, blank=True, null=True)    
     port = models.IntegerField()  
     macadresse = models.CharField(max_length=17, blank=True, null=True) 
-    pacs = models.ManyToManyField('self', blank=True)
-    worklist = models.ManyToManyField('self', blank=True)
+    # pacs = models.ManyToManyField('self', blank=True)
+    pacs = models.ForeignKey('self', null=True, blank=True, on_delete=models.PROTECT, related_name='Pacs',help_text=_(" Pacs ") )  
+    # worklist = models.ManyToManyField('self', blank=True)
+    worklist = models.ForeignKey('self', null=True, blank=True, on_delete=models.PROTECT, related_name='Worklist',help_text=_(" Worklist ") )
     store = models.ManyToManyField('self', blank=True)
     serveur = models.ForeignKey('Serveur', null=True, blank=True, on_delete=models.PROTECT, related_name='Serveur', help_text=_(" Serveur ") ) 
     divers = models.CharField(max_length=1024, blank=True, null=True) 
@@ -267,6 +270,7 @@ class Modalite(models.Model):
     class Meta:
         managed = True
         db_table = 'Modalite'
+        ordering = ["aet"]
 
     def __str__(self):
         return "{0}".format(self.aet)
@@ -293,6 +297,7 @@ class Serveur(models.Model):
     class Meta:
         managed = True
         db_table = 'Serveur'
+        ordering = ["projet"]
 
     def __str__(self):
         return "{0}".format(self.projet)
