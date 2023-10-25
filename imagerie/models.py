@@ -273,7 +273,7 @@ class Modalite(models.Model):
         ordering = ["aet"]
 
     def __str__(self):
-        return "{0}".format(self.aet)
+        return "{0} {1}".format(self.aet, Machine.addrip)
 
 
 class Serveur(models.Model):
@@ -284,7 +284,7 @@ class Serveur(models.Model):
     editeur = models.CharField(max_length=30, blank=True, null=True) 
     projet = models.ForeignKey('Projet', null=True, blank=True, on_delete=models.PROTECT, related_name='Projet', help_text=_(" Projet "), )
     ram = models.CharField(max_length=10, blank=True, null=True) 
-    cores =  models.IntegerField()  
+    cores =  models.IntegerField(blank=True, null=True)  
     ddsystem = models.CharField(max_length=10, blank=True, null=True) 
     dddata = models.CharField(max_length=10, blank=True, null=True) 
     os = models.CharField(max_length=30, blank=True, null=True)

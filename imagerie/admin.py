@@ -43,13 +43,13 @@ class AppareiltypeAdmin(admin.ModelAdmin):
     list_display = ('nom',)
     
 class ServeurAdmin(admin.ModelAdmin):
-    list_display = ('projet',)
+    list_display = ('projet', 'machine')
     
 class TestlanAdmin(admin.ModelAdmin):
     list_display = ('modalite',)
     
 class ModaliteAdmin(admin.ModelAdmin):
-    list_display = ('aet',)
+    list_display = ('aet', 'machine')
 
 class MachineAdmin(admin.ModelAdmin):
     list_display = ('addrip',)
