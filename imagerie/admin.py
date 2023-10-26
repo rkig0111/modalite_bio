@@ -1,6 +1,6 @@
 from django.contrib import admin
 from imagerie.models import Appareil, Etablissement, Localisation, Marque, Appareiltype, Vlan, Service, Machine
-from imagerie.models import Modalite, Serveur, Testlan, Logiciel, Bdd, Ras, Resspartage, Compte, Projet
+from imagerie.models import Modalite, Serveur, Testlan, Logiciel, Bdd, Ras, Resspartage, Identifiant, Projet
 
 
 class ServiceAdmin(admin.ModelAdmin):
@@ -18,7 +18,7 @@ class RasAdmin(admin.ModelAdmin):
 class ResspartageAdmin(admin.ModelAdmin):
     list_display = ('nom',)
     
-class CompteAdmin(admin.ModelAdmin):
+class IdentifiantAdmin(admin.ModelAdmin):
     list_display = ('login',)
     
 class ProjetAdmin(admin.ModelAdmin):
@@ -72,5 +72,5 @@ admin.site.register(Logiciel, LogicielAdmin)
 admin.site.register(Bdd, BddAdmin)
 admin.site.register(Ras, RasAdmin)
 admin.site.register(Resspartage, ResspartageAdmin)
-admin.site.register(Compte, CompteAdmin)
+admin.site.register(Identifiant, IdentifiantAdmin)
 admin.site.register(Projet, ProjetAdmin)

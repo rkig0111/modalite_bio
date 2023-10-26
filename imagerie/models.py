@@ -175,7 +175,7 @@ class Resspartage(models.Model):
         return "{0} ".format(self.nom)    
     
 
-class Compte(models.Model):
+class Identifiant(models.Model):
     login = models.CharField(blank=True, null=True, max_length=30) 
     password = models.CharField(blank=True, null=True, max_length=30, default="voir TeamPass") 
     divers = models.CharField(max_length=255, blank=True, null=True)
@@ -187,7 +187,7 @@ class Compte(models.Model):
         db_table = 'Compte'
 
     def __str__(self):
-        return "{0}  {1}".format(self.login)   
+        return "{0}".format(self.login)   
     
     
 class Projet(models.Model):
@@ -278,9 +278,9 @@ class Modalite(models.Model):
 
 class Serveur(models.Model):
     machine = models.ForeignKey('Machine', null=True, blank=True, on_delete=models.PROTECT, help_text=_(" Machine "), )   # related_name='Machine', 
-    srvdicom = models.BooleanField(default=False)
-    modalite = models.CharField(max_length=2, blank=True, null=True)     
-    type = models.CharField(max_length=30, blank=True, null=True)    # VM / PHYSIQUE
+    # srvdicom = models.BooleanField(default=False)
+    # modalite = models.CharField(max_length=2, blank=True, null=True)     
+    type = models.CharField(max_length=30, blank=True, null=True, default="VM", help_text=_(" VM / Physique "),)    # VM / PHYSIQUE
     editeur = models.CharField(max_length=30, blank=True, null=True) 
     projet = models.ForeignKey('Projet', null=True, blank=True, on_delete=models.PROTECT, related_name='Projet', help_text=_(" Projet "), )
     ram = models.CharField(max_length=10, blank=True, null=True) 
@@ -290,7 +290,7 @@ class Serveur(models.Model):
     os = models.CharField(max_length=30, blank=True, null=True)
     bdd = models.ForeignKey('Bdd', null=True, blank=True, on_delete=models.PROTECT, related_name='Bdd', help_text=_(" Base de données "), )
     ras = models.ForeignKey('Ras', null=True, blank=True, on_delete=models.PROTECT, related_name='Ras', help_text=_(" compte ras_xxx "), )
-    comptes = models.ForeignKey('Compte', null=True, blank=True, on_delete=models.PROTECT, related_name='Compte', help_text=_(" Compte "), )
+    identifiant = models.ManyToManyField('Identifiant', help_text=_(" Identifiant "), )
     resspartage = models.ForeignKey('Resspartage', null=True, blank=True, on_delete=models.PROTECT, related_name='Resspartage', help_text=_(" Ressource partagée "), )
     divers = models.CharField(max_length=1024, blank=True, null=True) 
 
