@@ -52,7 +52,7 @@ class ModaliteAdmin(admin.ModelAdmin):
     list_display = ('aet', 'machine')
 
 class MachineAdmin(admin.ModelAdmin):
-    list_display = ('addrip',)
+    list_display = ('addrip', 'appareiltype')
 
 # col = [addrip, aet, port, masque, hostname, modalite, hostname, systeme, macadresse, dicom, inventaire \
 # remarque, appareil, etablissement, localisation, marque, typeappareil, vlan ]

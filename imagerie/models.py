@@ -228,7 +228,7 @@ class Machine(models.Model):
         ordering = ["addrip"]
 
     def __str__(self):
-        return "{0}".format(self.addrip)
+        return "{0} {1}".format(self.addrip, self.appareiltype)
 
     
 class Modalite(models.Model):
@@ -252,20 +252,23 @@ class Modalite(models.Model):
 
     machine = models.ForeignKey('Machine', null=True, blank=True, on_delete=models.PROTECT, related_name='Machine', help_text=_(" Machine ") )
     service = models.ForeignKey('Service', null=True, blank=True, on_delete=models.PROTECT, related_name='Service', help_text=_(" Service ") )
-    srvdicom = models.BooleanField(default=False)
-    modalite = models.CharField(max_length=2, blank=True, null=True) 
+    # srvdicom = models.BooleanField(default=False)
+    srvdicom = models.CharField(max_length=5, blank=True, null=True, choices=SERVEUR, default="JANUARY", help_text=_(" type de serveur "))
+    modalite = models.CharField(max_length=5, blank=True, null=True, help_text=_(" CT, CR, DX, US, MR, etc... ")) 
     mask = models.GenericIPAddressField(default="255.255.255.0", blank=True, null=True)
     passerelle = models.GenericIPAddressField(default="0.0.0.1", blank=True, null=True)
     aet = models.CharField(max_length=30, blank=True, null=True)    
-    port = models.IntegerField()  
+    port = models.IntegerField(blank=True, null=True, help_text=_(" Port DICOM "))  
     macadresse = models.CharField(max_length=17, blank=True, null=True) 
     # pacs = models.ManyToManyField('self', blank=True)
     pacs = models.ForeignKey('self', null=True, blank=True, on_delete=models.PROTECT, related_name='Pacs',help_text=_(" Pacs ") )  
     # worklist = models.ManyToManyField('self', blank=True)
     worklist = models.ForeignKey('self', null=True, blank=True, on_delete=models.PROTECT, related_name='Worklist',help_text=_(" Worklist ") )
-    store = models.ManyToManyField('self', blank=True)
-    serveur = models.ForeignKey('Serveur', null=True, blank=True, on_delete=models.PROTECT, related_name='Serveur', help_text=_(" Serveur ") ) 
+    store = models.ManyToManyField('self', blank=True, help_text=_(" différents STORE où l'on peut pousser les examens"))
+    serveur = models.ForeignKey('Serveur', null=True, blank=True, on_delete=models.PROTECT, related_name='Serveur', help_text=_(" Serveur associé ? ") ) 
     divers = models.CharField(max_length=1024, blank=True, null=True) 
+    modedegrade =  models.TextField(blank=True, null=True, help_text=_(" mode dégradé à mettre en place.. "))
+    doc = models.FileField(blank=True, null=True, upload_to="documentations")
 
     class Meta:
         managed = True
