@@ -5,6 +5,7 @@ from imagerie import views
 urlpatterns = [
     path('', views.index, name="index"),
     path('appareil', views.list_appareil, name='list_appareil'),
+    path('machine', views.list_machine, name='list_machine'),
     path('etablissement', views.list_etablissement, name='list_etablissement'),
     path('localisation', views.list_localisation, name='list_localisation'),
     path('marque', views.list_marque, name='list_marque'),
@@ -13,6 +14,7 @@ urlpatterns = [
     path('serveur', views.list_serveur, name='list_serveur'),
     path('vlan', views.list_vlan, name='list_vlan'),
     re_path(r'appareil/detail/(?P<appareil_id>\d+)', views.detail_appareil, name='detail_appareil'),
+    re_path(r'machine/detail/(?P<machine_id>\d+)', views.detail_machine, name='detail_machine'),
     re_path(r'etablissement/detail/(?P<etablissement_id>\d+)', views.detail_etablissement, name='detail_etablissement'),
     re_path(r'localisation/detail/(?P<localisation_id>\d+)', views.detail_localisation, name='detail_localisation'),
     re_path(r'marque/detail/(?P<marque_id>\d+)', views.detail_marque, name='detail_marque'),

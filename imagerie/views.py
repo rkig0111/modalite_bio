@@ -1,7 +1,7 @@
 from django.http import Http404
 from django.shortcuts import render, get_object_or_404, get_list_or_404
 from django.http import HttpResponse
-from .models import Vlan, Appareil, Etablissement, Localisation, Marque, Appareiltype, Modalite, Serveur
+from .models import Vlan, Appareil, Etablissement, Localisation, Marque, Appareiltype, Modalite, Serveur, Machine
 # from smart_view.smart_fields import ConditionnalSmartField, ToolsSmartField
 # from smart_view.smart_view import SmartView, ComputedSmartField
 # view.smart_fields
@@ -26,6 +26,15 @@ def list_appareil(request):
 def detail_appareil(request, appareil_id):
     appareil = get_object_or_404(Appareil, pk=appareil_id)
     return render(request, 'imagerie/detail_appareil.html', {'appareil': appareil})
+
+
+def list_machine(request):
+    machines = get_list_or_404(Machine)
+    return render(request, "imagerie/list_machine.html", {"machines": machines, "modele": "machine"})
+
+def detail_machine(request, machine_id):
+    machine = get_object_or_404(Machine, pk=machine_id)
+    return render(request, 'imagerie/detail_machine.html', {'machine': machine})
 
 
 def list_etablissement(request):
