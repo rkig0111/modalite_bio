@@ -1,14 +1,53 @@
 from django.http import Http404
-from django.shortcuts import render, get_object_or_404, get_list_or_404
+from django.urls import reverse
+from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
 from django.http import HttpResponse
 from .models import Vlan, Appareil, Etablissement, Localisation, Marque, Appareiltype, Modalite, Serveur, Machine
+from .forms import MachineForm
+from django.forms import ModelForm, Textarea
+from django. contrib import messages
 # from smart_view.smart_fields import ConditionnalSmartField, ToolsSmartField
 # from smart_view.smart_view import SmartView, ComputedSmartField
 # view.smart_fields
 
+from django import forms
+from django.forms.fields import DateField, ChoiceField, MultipleChoiceField
+from django.forms. widgets import RadioSelect , CheckboxSelectMultiple
+from django.forms. widgets import SelectDateWidget
+
+
+def machine(request):
+    # on instancie un formulaire
+    form = MachineForm()
+    context = {"form" : form ,}
+    return render(request ,'imagerie/detail_machine.html', context )
+      
+"""      # on teste si on est bien en validation de formulaire (POST)
+      print("request.method ----> ", request.method )
+      if request.method == "POST":
+          # Si oui on récupère les données postées
+          form = MachineForm(request.POST)
+          # on vérifie la validit é du formulaire
+          if form.is_valid():
+              nouvelle_machine = form.save()
+              # on prépare un nouveau message
+              # messages.success(request ,'Nouvelle machine'+ nouvelle_machine.appareil+' '+ nouvelle_machine.appareiltype)
+              #return redirect ( reverse ('detail ', args =[ new_contact .pk] ))
+              context = {'pers ': nouvelle_machine }
+      # Si méthode GET , on présente le formulaire
+      context = {'machine ': form}
+      return render(request ,'imagerie/detail_machine.html', context )
+"""  
+  
+  
 def index(request):
     tables = ["Vlan", "Appareil", "Etablissement", "Localisation", "Marque", "Appareiltype", "Modalite", "Serveur"]
     return render(request, "imagerie/index.html", {"tables": tables})
+
+
+# def index(request):
+#     tables = []
+#     return render(request, "imagerie/base.html", {"tables": tables})
 
 def list_vlan(request):
     vlans = get_list_or_404(Vlan)
@@ -36,6 +75,9 @@ def detail_machine(request, machine_id):
     machine = get_object_or_404(Machine, pk=machine_id)
     return render(request, 'imagerie/detail_machine.html', {'machine': machine})
 
+def machine_new(request):
+    form = MachineForm()
+    return render(request, 'imagerie/machine_edit.html', {'form': form})
 
 def list_etablissement(request):
     etablissements = get_list_or_404(Etablissement)

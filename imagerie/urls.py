@@ -5,7 +5,9 @@ from imagerie import views
 urlpatterns = [
     path('', views.index, name="index"),
     path('appareil', views.list_appareil, name='list_appareil'),
-    path('machine', views.list_machine, name='list_machine'),
+    # path('machine', views.list_machine, name='list_machine'),
+    path('machine', views.machine, name='machine'),
+    path('machine_new', views.machine_new, name='machine_new'),
     path('etablissement', views.list_etablissement, name='list_etablissement'),
     path('localisation', views.list_localisation, name='list_localisation'),
     path('marque', views.list_marque, name='list_marque'),
