@@ -16,11 +16,11 @@ from django.forms. widgets import RadioSelect , CheckboxSelectMultiple
 from django.forms. widgets import SelectDateWidget
 
 
-def machine(request):
+"""def machine(request):
     # on instancie un formulaire
     form = MachineForm()
     context = {"form" : form ,}
-    return render(request ,'imagerie/detail_machine.html', context )
+    return render(request ,'imagerie/detail_machine.html', context )"""
       
 """      # on teste si on est bien en validation de formulaire (POST)
       print("request.method ----> ", request.method )
@@ -41,7 +41,7 @@ def machine(request):
   
   
 def index(request):
-    tables = ["Vlan", "Appareil", "Etablissement", "Localisation", "Marque", "Appareiltype", "Modalite", "Serveur"]
+    tables = ["Vlan", "Appareil", "Etablissement", "Localisation", "Marque", "Appareiltype", "Modalite", "Serveur", "Machine"]
     return render(request, "imagerie/index.html", {"tables": tables})
 
 
@@ -75,9 +75,20 @@ def detail_machine(request, machine_id):
     machine = get_object_or_404(Machine, pk=machine_id)
     return render(request, 'imagerie/detail_machine.html', {'machine': machine})
 
+
 def machine_new(request):
-    form = MachineForm()
+    if request.method == "POST":
+        form = MachineForm(request.POST)
+        if form.is_valid():
+            machine = form.save(commit=False)
+            # machine.author = request.user
+            # machine.published_date = timezone.now()
+            machine.save()
+            return redirect('detail_machine', machine.id)
+    else:
+        form = MachineForm()
     return render(request, 'imagerie/machine_edit.html', {'form': form})
+
 
 def list_etablissement(request):
     etablissements = get_list_or_404(Etablissement)
