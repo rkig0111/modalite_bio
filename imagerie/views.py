@@ -90,6 +90,22 @@ def machine_new(request):
     return render(request, 'imagerie/machine_edit.html', {'form': form})
 
 
+def machine_detail(request, id):
+    machine = get_object_or_404(Machine, id=id)
+    print("machine ---> ", machine)
+    if request.method == "POST":
+        form = MachineForm(request.POST, instance=machine)
+        if form.is_valid():
+            machine = form.save(commit=False)
+            # machine.author = request.user
+            # machine.published_date = timezone.now()
+            machine.save()
+            return redirect('detail_machine', machine.id)
+    else:
+        form = MachineForm(instance=machine)
+    return render(request, 'imagerie/machine_edit.html', {'form': form})
+
+
 def list_etablissement(request):
     etablissements = get_list_or_404(Etablissement)
     return render(request, "imagerie/list_etablissement.html", {"etablissements": etablissements, "modele": "etablissement"})

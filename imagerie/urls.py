@@ -24,4 +24,5 @@ urlpatterns = [
     re_path(r'modalite/detail/(?P<modalite_id>\d+)', views.detail_modalite, name='detail_modalite'),
     re_path(r'serveur/detail/(?P<serveur_id>\d+)', views.detail_serveur, name='detail_serveur'),
     re_path(r'vlan/detail/(?P<vlan_id>\d+)', views.detail_vlan, name='detail_vlan'),
+    path('machine/edit/<int:id>', views.machine_detail, name='machine_edit'),
 ]

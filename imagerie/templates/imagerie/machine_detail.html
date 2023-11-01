@@ -1,0 +1,13 @@
+{% extends 'imagerie/base.html' %}
+
+{% block content %}
+    <article class="imagerie">
+        <aside class="actions">
+            <a class="btn btn-default" href="{% url 'machine_edit' pk=machine.pk %}">
+                {% include './icons/pencil-fill.svg' %}
+            </a>
+        </aside>
+        <h2>{{ machine.appareil }}</h2>
+        <p>{{ machine.appareiltype|linebreaksbr }}</p>
+    </article>
+{% endblock %}
