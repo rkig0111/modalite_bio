@@ -41,18 +41,28 @@ class AppareilAdmin(admin.ModelAdmin):
 
 class AppareiltypeAdmin(admin.ModelAdmin):
     list_display = ('nom',)
-    
+
+class ServeurLine(admin.StackedInline):
+    model = Serveur
+    extra = 0
+
 class ServeurAdmin(admin.ModelAdmin):
     list_display = ('projet', 'machine')
     
 class TestlanAdmin(admin.ModelAdmin):
     list_display = ('modalite',)
-    
+
+class ModaliteLine(admin.StackedInline):
+    model = Modalite
+    extra = 0
+
 class ModaliteAdmin(admin.ModelAdmin):
     list_display = ('aet', 'machine')
 
 class MachineAdmin(admin.ModelAdmin):
     list_display = ('addrip', 'appareiltype')
+    inlines = [ModaliteLine, ServeurLine ]
+    
 
 # col = [addrip, aet, port, masque, hostname, modalite, hostname, systeme, macadresse, dicom, inventaire \
 # remarque, appareil, etablissement, localisation, marque, typeappareil, vlan ]
