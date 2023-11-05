@@ -109,7 +109,8 @@ USE_TZ = True
 
 # Uploaded files
 
-MEDIA_ROOT = Path(BASE_DIR / "media")
+# MEDIA_ROOT = Path(BASE_DIR / "media")
+MEDIA_ROOT = BASE_DIR / "media"
 MEDIA_URL = '/media/'
 
 # Static files (CSS, JavaScript, Images)

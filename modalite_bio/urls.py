@@ -15,10 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-# from imagerie import views
+from django.conf.urls.static import static
+from imagerie import views
+from modalite_bio import settings
 
 urlpatterns = [
-    # path('', views.index, name="index"),
+    # path('', views.index, name="index"),
     path('admin/', admin.site.urls),
+    path('signup', views.signup, name="signup"),
+    path('login', views.login_user, name="login"),
+    path('logout', views.logout_user, name="logout"),
     path("imagerie/", include("imagerie.urls")),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,3 +1,7 @@
+{% extends 'imagerie/base.html' %}
+
+{% block content %}
+
 {% if tables %}
 <ul>
 {% for table in tables %}
@@ -9,3 +13,5 @@
 {% else %}
     <p> il n'y a pas de table à afficher. </p>
 {% endif %}
+
+{% endblock %}

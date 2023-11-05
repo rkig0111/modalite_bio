@@ -8,6 +8,13 @@
         <link rel="stylesheet" href="{% static 'css/blog.css' %}">
     </head>
     <body>
+        {% if user.is_authenticated %}
+            {{ user.username }}
+            <a href="{% url 'logout' %}">Déconnexion</a>
+        {% else %}
+            <a href="{% url 'signup' %}">S'inscrire</a>
+            <a href="{% url 'login' %}">Connexion</a>
+        {% endif %}       
         <header class="page-header">
             <div class="container">
                 <a href="{% url 'machine' %}" class="top-menu">

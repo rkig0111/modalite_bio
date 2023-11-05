@@ -5,7 +5,8 @@ from django.http import HttpResponse
 from .models import Vlan, Appareil, Etablissement, Localisation, Marque, Appareiltype, Modalite, Serveur, Machine
 from .forms import MachineForm
 from django.forms import ModelForm, Textarea
-from django. contrib import messages
+from django.contrib import messages
+from django.contrib.auth import login, logout, authenticate, get_user_model
 # from smart_view.smart_fields import ConditionnalSmartField, ToolsSmartField
 # from smart_view.smart_view import SmartView, ComputedSmartField
 # view.smart_fields
@@ -39,7 +40,31 @@ from django.forms. widgets import SelectDateWidget
       return render(request ,'imagerie/detail_machine.html', context )
 """  
   
-  
+User = get_user_model()
+
+def signup(request):
+    if request.method == "POST":
+        username = request.POST.get("username")  
+        password = request.POST.get("password")         
+        user = User.objects.create_user(username=username, password=password)
+        login(request, user)
+        return redirect('index')
+    return render(request, 'imagerie/signup.html')  
+
+def login_user(request):
+    if request.method == "POST":
+        username = request.POST.get("username")  
+        password = request.POST.get("password")         
+        user = authenticate(username=username, password=password)
+        if user:
+            login(request, user)
+            return redirect('index')
+    return render(request, 'imagerie/login.html')   
+
+def logout_user(request):
+    logout(request)
+    return redirect('index')   
+     
 def index(request):
     tables = ["Vlan", "Appareil", "Etablissement", "Localisation", "Marque", "Appareiltype", "Modalite", "Serveur", "Machine"]
     return render(request, "imagerie/index.html", {"tables": tables})
