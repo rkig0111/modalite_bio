@@ -2,7 +2,7 @@
 <ul>
 {% for etablissement in etablissements %}
 <h5>
-    <li><a href="{{ modele }}/detail/{{ etablissement.id }}">{{ etablissement.id }} {{ etablissement.nom }} {{ etablissement.divers }}</a></li>
+    <li><a href="{{ modele }}/edit/{{ etablissement.id }}">{{ etablissement.id }} {{ etablissement.nom }} {{ etablissement.divers }}</a></li>
 </h5>
 {% endfor %}
 </ul>

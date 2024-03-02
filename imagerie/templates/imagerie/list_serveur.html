@@ -2,7 +2,7 @@
 <ul>
 {% for serveur in serveurs %}
 <h5>
-    <li><a href="{{ modele }}/detail/{{ serveur.id }}"> {{ serveur.id }}  {{ serveur.nom }} {{ serveur.aet }}  {{ serveur.ip }} {{ serveur.port }}</a></li>
+    <li><a href="{{ modele }}/edit/{{ serveur.id }}"> {{ serveur.id }}  {{ serveur.nom }} {{ serveur.aet }}  {{ serveur.ip }} {{ serveur.port }}</a></li>
 </h5>
 {% endfor %}
 </ul>

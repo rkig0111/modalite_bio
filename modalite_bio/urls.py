@@ -20,7 +20,7 @@ from imagerie import views
 from modalite_bio import settings
 
 urlpatterns = [
-    # path('', views.index, name="index"),
+    path('', views.toindex, name="toindex"),
     path('admin/', admin.site.urls),
     path('signup', views.signup, name="signup"),
     path('login', views.login_user, name="login"),

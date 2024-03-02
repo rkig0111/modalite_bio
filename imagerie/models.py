@@ -207,6 +207,7 @@ class Projet(models.Model):
     def __str__(self):
         return "{0}".format(self.nom)
 
+
 class Machine(models.Model):    
     etablissement = models.ForeignKey('Etablissement', null=True, blank=True, on_delete=models.PROTECT, related_name='Etablissement', help_text=_(" Etablissement "), )
     appareil = models.ForeignKey('Appareil', null=True, blank=True, on_delete=models.PROTECT, related_name='Appareil', help_text=_(" Appareil "), )     
@@ -220,7 +221,7 @@ class Machine(models.Model):
     localisation = models.ForeignKey('Localisation', null=True, blank=True, on_delete=models.PROTECT, related_name='Localisation', help_text=_(" Localisation "), )
     datecreat = models.DateTimeField(auto_now_add=True, verbose_name='date de création')
     datemodif = models.DateTimeField(auto_now=True, verbose_name='date de modification')  
-    datereforme = models.DateTimeField(auto_now=True, verbose_name='date de reforme') 
+    datereforme = models.DateTimeField(verbose_name='date de reforme', blank=True, null=True)
 
     class Meta:
         managed = True

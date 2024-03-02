@@ -2,7 +2,7 @@
 <ul>
 {% for localisation in localisations %}
 <h5>
-    <li><a href="{{ modele }}/detail/{{ localisation.id }}"> {{ localisation.id }}  {{ localisation.code }} {{ localisation.nom }} {{ localisation.nomutil }} {{ localisation.tel }}</a></li>
+    <li><a href="{{ modele }}/edit/{{ localisation.id }}"> {{ localisation.id }}  {{ localisation.code }} {{ localisation.nom }} {{ localisation.nomutil }} {{ localisation.tel }}</a></li>
 </h5>
 {% endfor %}
 </ul>

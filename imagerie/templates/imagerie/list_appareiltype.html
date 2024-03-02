@@ -2,7 +2,7 @@
 <ul>
 {% for appareiltype in appareiltypes %}
 <h5>
-    <li><a href="{{ modele }}/detail/{{ appareiltype.id }}">{{ appareiltype.id }} {{ appareiltype.nom }} {{ appareiltype.divers }}</a></li>
+    <li><a href="{{ modele }}/edit/{{ appareiltype.id }}">{{ appareiltype.id }} {{ appareiltype.nom }} {{ appareiltype.divers }}</a></li>
 </h5>
 {% endfor %}
 </ul>
