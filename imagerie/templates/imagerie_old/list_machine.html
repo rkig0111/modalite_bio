@@ -1,0 +1,17 @@
+{% extends 'imagerie/base.html' %}
+
+{% block content %}
+
+{% if machines %}
+<ul>
+{% for machine in machines %}
+<h5>
+    <li><a href="{{ modele }}/edit/{{ machine.id }}"> {{ machine.id }}{{ machine.appareiltype }} {{ machine.addrip }}</a></li>
+</h5>
+{% endfor %}
+</ul>
+{% else %}
+    <p> il n'y a pas de machine à afficher. </p>
+{% endif %}
+
+{% endblock %}

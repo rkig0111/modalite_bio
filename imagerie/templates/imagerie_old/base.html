@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Test Romu</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+        <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+    </head>
+    <body>
+        {% if user.is_authenticated %}
+            {{ user.username }}
+            <a href="{% url 'logout' %}">Déconnexion</a>
+        {% else %}
+            <a href="{% url 'signup' %}">S'inscrire</a>
+            <a href="{% url 'login' %}">Connexion</a>
+        {% endif %}       
+        <header class="page-header">
+            <div class="container">
+                <a href="{% url 'machine' %}" class="top-menu">
+                    {% include './icons/file-earmark-plus.svg' %}
+                </a>
+                <h1><a href="/">test Romu</a></h1>
+            </div>
+        </header>
+        <main class="content container">
+            <div class="row">
+                <div class="col">
+                    {% block content %}
+                    {% endblock %}
+                </div>
+            </div>
+        </main>
+    </body>
+</html>

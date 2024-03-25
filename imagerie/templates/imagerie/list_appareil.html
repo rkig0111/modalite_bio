@@ -1,11 +1,17 @@
+{% extends 'imagerie/base.html' %}
+
+{% block content %}
+
 {% if appareils %}
 <ul>
 {% for appareil in appareils %}
 <h5>
-    <li><a href="{{ modele }}/edit/{{ appareil.id }}"> {{ appareil.id }}{{ appareil.nom }} {{ appareil.divers }}</a></li>
+   <li><a href="{% url 'detail_appareil' appareil.id %}">{{ appareil.nom }}</a></li>
 </h5>
 {% endfor %}
 </ul>
 {% else %}
     <p> il n'y a pas d' appareil à afficher. </p>
 {% endif %}
+
+{% endblock %}

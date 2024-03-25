@@ -1,22 +1,24 @@
+{% extends 'imagerie/base.html' %}
+
+{% block content %}
+
 <table>
     <tr>
       <td><h3>id : </h3></td>
       <td><h3>{{ machine.id }}</h3></td>
     </tr>
      <tr>
-      <td><h3>appareil :</h3></td>
-      <td><h3>{{ machine.appareil }}</h3></td>
-    </tr>
-    <tr>
-      <td><h3>appareil type :</h3></td>
-      <td><h3>{{ machine.appareiltype }}</h3></td>
-    </tr>
-    <tr>
-      <td><h3>date adresse IP :</h3></td>
+      <td><h3>dénomination :</h3></td>
       <td><h3>{{ machine.addrip }}</h3></td>
     </tr>
     <tr>
-      <td><h3>divers :</h3></td>
-      <td><h3>{{ machine.divers|default_if_none:""}}</h3></td>
-      </tr>
+      <td><h3>date création :</h3></td>
+      <td><h3>{{ machine.datecreat }}</h3></td>
+    </tr>
+    <tr>
+      <td><h3>date modification :</h3></td>
+      <td><h3>{{ machine.datemodif }}</h3></td>
+    </tr>
   </table>
+
+  {% endblock %}

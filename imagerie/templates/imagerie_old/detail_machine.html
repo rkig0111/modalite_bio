@@ -1,0 +1,22 @@
+<table>
+    <tr>
+      <td><h3>id : </h3></td>
+      <td><h3>{{ machine.id }}</h3></td>
+    </tr>
+     <tr>
+      <td><h3>appareil :</h3></td>
+      <td><h3>{{ machine.appareil }}</h3></td>
+    </tr>
+    <tr>
+      <td><h3>appareil type :</h3></td>
+      <td><h3>{{ machine.appareiltype }}</h3></td>
+    </tr>
+    <tr>
+      <td><h3>date adresse IP :</h3></td>
+      <td><h3>{{ machine.addrip }}</h3></td>
+    </tr>
+    <tr>
+      <td><h3>divers :</h3></td>
+      <td><h3>{{ machine.divers|default_if_none:""}}</h3></td>
+      </tr>
+  </table>

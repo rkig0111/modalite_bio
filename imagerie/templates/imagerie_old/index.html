@@ -1,0 +1,17 @@
+{% extends 'imagerie/base.html' %}
+
+{% block content %}
+
+{% if tables %}
+<ul>
+{% for table in tables %}
+<h5>
+    <li><a href="{{ table|lower }}"> {{ table }} </a></li>
+</h5>
+{% endfor %}
+</ul>
+{% else %}
+    <p> il n'y a pas de table à afficher. </p>
+{% endif %}
+
+{% endblock %}
