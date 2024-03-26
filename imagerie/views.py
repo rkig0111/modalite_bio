@@ -163,7 +163,6 @@ def edit_appareil(request, id):
         form = AppareilForm(instance=appareil)
         # form =AppareilForm()
     return render(request, 'imagerie/edit_appareil.html', {'form': form})
-    print(request)
 
 def edit_machine(request, id):
     machine = get_object_or_404(Machine, id=id)
@@ -189,7 +188,6 @@ def edit_machine(request, id):
         form = MachineForm(instance=machine)
         # form =MachineForm()
     return render(request, 'imagerie/edit_machine.html', {'form': form})
-    print(request)
 
 
 def edit_modalite(request, id):
@@ -216,4 +214,14 @@ def edit_modalite(request, id):
         form = ModaliteForm(instance=modalite)
         # form =ModaliteForm()
     return render(request, 'imagerie/edit_modalite.html', {'form': form})
-    print(request)
+    
+
+def delete_modalite(request, id):
+    modalite = Modalite.objects.get(id=id)
+    print("modalite ---> ", modalite)
+    print('La méthode de requête est : ', request.method)
+    print('Les données POST sont : ', request.POST)
+    if request.method == "POST":
+        modalite.delete()
+        return redirect('index')
+    return render(request, 'imagerie/delete_modalite.html', {'modalite': modalite})

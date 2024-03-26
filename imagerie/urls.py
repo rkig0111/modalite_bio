@@ -20,4 +20,5 @@ urlpatterns = [
     path('modalite/<int:id>/', views.detail_modalite, name='detail_modalite'),
     path('edit_appareil/<int:id>/', views.edit_appareil, name='edit_appareil'),
     path('edit_modalite/<int:id>/', views.edit_modalite, name='edit_modalite'),
+    path('delete_modalite/<int:id>/', views.delete_modalite, name='delete_modalite'),
 ]
